@@ -1,13 +1,13 @@
 /*
 USE master
 GO
-DROP DATABASE atividade_1_lab_bd
+DROP DATABASE Avaliacao_1_Lab_BD
 */
 
 /*
-    CREATE DATABASE atividade_1_lab_bd
+    CREATE DATABASE Avaliacao_1_Lab_BD
  GO
-    USE atividade_1_lab_bd
+    USE Avaliacao_1_Lab_BD
 */
 
 /*
@@ -112,6 +112,7 @@ CREATE TABLE matricula
     semestre_ingresso INT NOT NULL,
     ano_limite_graduacao INT NOT NULL,
     semestre_limite_graduacao INT NOT NULL,
+    matricula_ativa BIT NOT NULL ,
 
     PRIMARY KEY(ra),
     FOREIGN KEY(cpf_aluno) REFERENCES aluno,

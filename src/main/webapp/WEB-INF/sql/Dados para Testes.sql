@@ -1,6 +1,18 @@
 /*
 -- Dados para testes
-USE atividade_1_lab_bd
+USE Avaliacao_1_Lab_BD
+*/
+
+/*
+DELETE matricula_disciplina WHERE id LIKE '%'
+DELETE matricula WHERE ra LIKE '%'
+DELETE curso_disciplina WHERE cod_disciplina LIKE '%'
+DELETE conteudo WHERE cod_disciplina LIKE '%'
+DELETE horario WHERE id LIKE '%'
+DELETE disciplina WHERE codigo LIKE '%'
+DELETE curso WHERE codigo LIKE '%'
+DELETE telefone WHERE cpf_aluno LIKE '%'
+DELETE aluno WHERE cpf LIKE '%'
 */
 
 -- DELETE aluno WHERE cpf LIKE '%'
@@ -57,21 +69,19 @@ INSERT INTO curso_disciplina (cod_disciplina, cod_curso) VALUES
 
 -- DELETE matricula WHERE ra LIKE '%'
 INSERT INTO matricula (ra, cpf_aluno, cod_curso, pontuacao_vestibular, posicao_vestibular, ano_ingresso,
-                       semestre_ingresso, ano_limite_graduacao, semestre_limite_graduacao)
+                       semestre_ingresso, ano_limite_graduacao, semestre_limite_graduacao, matricula_ativa)
 VALUES
-    ('202211589', '87683951080', 0, 100, 50, 2022, 1, 2027, 2),
-    ('202211876', '19538602064', 0, 90, 5, 2022, 1, 2027, 2),
-    ('202218417', '31347243089', 0, 100, 10, 2022, 1, 2027, 2)
+    ('202211589', '87683951080', 2, 100, 50, 2022, 1, 2027, 2, 1),
+    ('202211876', '19538602064', 0, 90, 5, 2022, 1, 2027, 2, 1),
+    ('202218417', '31347243089', 1, 100, 10, 2022, 1, 2027, 2, 1)
 
-
+-- DELETE matricula_disciplina WHERE id LIKE '%'
 INSERT INTO matricula_disciplina (ra_matricula, id_horario, cod_disciplina, ano_matricula, semestre_matricula, estado)
 VALUES
-    ('202211589', '13004', 1001, 2024, 01, 'matriculado'),
-        ('202211589', '13002', 1002, 2024, 01, 'matriculado'),
-        ('202211589', '14502', 1003, 2024, 01, 'matriculado'),
-        ('202211589', '13004', 1001, 2023, 02, 'reprovado'),
-        ('202211589', '13002', 1003, 2024, 01, 'aprovado'),
-    ('202211876', '13004', 1001, 2024, 01, 'matriculado'),
-    ('202218417', '13004', 1001, 2024, 01, 'matriculado')
+    ('202211589', '13004', 1001, 2024, 01, 'matriculado'), ('202211589', '13002', 1004, 2024, 01, 'matriculado'),
+    ('202211589', '14502', 1003, 2024, 01, 'aprovado'), ('202211589', '13004', 1001, 2023, 02, 'reprovado'),
+    ('202211589', '16402', 1003, 2024, 01, 'aprovado'), ('202211589', '14504', 1003, 2024, 01, 'aprovado'),
+    ('202211876', '13004', 1001, 2024, 01, 'matriculado'), ('202211876', '14504', 1003, 2024, 01, 'aprovado'),
+    ('202218417', '16402', 1001, 2024, 01, 'matriculado')
 
 
