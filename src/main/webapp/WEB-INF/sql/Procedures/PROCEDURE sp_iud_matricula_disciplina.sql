@@ -16,32 +16,36 @@ BEGIN
     SET @modo = UPPER(@modo)
     IF ( @modo = 'I' OR @modo = 'U' OR @modo = 'D' OR @modo = 'A' )
     BEGIN
+        DECLARE @ok BIT; SET @ok = 1
         IF ( @id IS NULL AND (@modo = 'U' OR @modo = 'D' OR @modo = 'A') )
-        BEGIN; RAISERROR ('ID nulo', 16, 1); END
+        BEGIN; SET @ok = 0; RAISERROR ('ID nulo', 16, 1); END
 
         IF ( (@modo = 'U' OR @modo = 'I') AND ( @id_horario IS NULL OR @ra_matricula IS NULL OR
                                                 @cod_disciplina IS NULL OR @ano_matricula IS NULL OR
                                                 @semestre_matricula IS NULL OR @estado IS NULL) )
 
-        BEGIN; RAISERROR ('Nao e possivel alterar ou inserir dados nulos', 16, 1); END
+        BEGIN; SET @ok = 0; RAISERROR ('Nao e possivel alterar ou inserir dados nulos', 16, 1); END
 
-        IF ( @modo = 'U' )
+        IF (@ok = 1)
         BEGIN
-            UPDATE matricula_disciplina
-            SET id_horario = @id_horario, ra_matricula = @ra_matricula,
-                cod_disciplina = @cod_disciplina, ano_matricula = @ano_matricula,
-                semestre_matricula = @semestre_matricula, estado = @estado
-            WHERE id =  @id
-            SET @saida = 'Matricula atualizada com sucesso'
-        END
-        ELSE
-        BEGIN
-            IF ( @modo = 'I' )
+            IF ( @modo = 'U' )
             BEGIN
-                INSERT INTO matricula_disciplina (id_horario, ra_matricula, cod_disciplina,
-                                                  ano_matricula, semestre_matricula, estado) VALUES
-                    (@id_horario, @ra_matricula, @cod_disciplina, @ano_matricula, @semestre_matricula, @estado)
-                SET @saida = 'Matricula feita com sucesso'
+                UPDATE matricula_disciplina
+                SET id_horario = @id_horario, ra_matricula = @ra_matricula,
+                    cod_disciplina = @cod_disciplina, ano_matricula = @ano_matricula,
+                    semestre_matricula = @semestre_matricula, estado = @estado
+                WHERE id =  @id
+                SET @saida = 'Matricula atualizada com sucesso'
+            END
+            ELSE
+            BEGIN
+                IF ( @modo = 'I' )
+                BEGIN
+                    INSERT INTO matricula_disciplina (id_horario, ra_matricula, cod_disciplina,
+                                                      ano_matricula, semestre_matricula, estado) VALUES
+                        (@id_horario, @ra_matricula, @cod_disciplina, @ano_matricula, @semestre_matricula, @estado)
+                    SET @saida = 'Matricula feita com sucesso'
+                END
             END
         END
     END
