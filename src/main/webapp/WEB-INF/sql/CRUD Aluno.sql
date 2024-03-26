@@ -129,6 +129,7 @@ CREATE TABLE matricula_disciplina
     ano_matricula  INT NOT NULL,
     semestre_matricula INT NOT NULL,
     estado    VARCHAR(12) NOT NULL,
+    dia_semana INT NOT NULL,
 
     PRIMARY KEY(id),
     FOREIGN KEY(ra_matricula)   REFERENCES matricula,

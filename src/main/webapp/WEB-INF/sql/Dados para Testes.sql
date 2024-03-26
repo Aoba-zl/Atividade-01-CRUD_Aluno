@@ -76,12 +76,13 @@ VALUES
     ('202218417', '31347243089', 1, 100, 10, 2022, 1, 2027, 2, 1)
 
 -- DELETE matricula_disciplina WHERE id LIKE '%'
-INSERT INTO matricula_disciplina (ra_matricula, id_horario, cod_disciplina, ano_matricula, semestre_matricula, estado)
+INSERT INTO matricula_disciplina (ra_matricula, id_horario, cod_disciplina, ano_matricula,
+                                  semestre_matricula, estado, dia_semana)
 VALUES
-    ('202211589', '13004', 1001, 2024, 01, 'matriculado'), ('202211589', '13002', 1004, 2024, 01, 'matriculado'),
-    ('202211589', '14502', 1003, 2024, 01, 'aprovado'), ('202211589', '13004', 1001, 2023, 02, 'reprovado'),
-    ('202211589', '16402', 1003, 2024, 01, 'aprovado'), ('202211589', '14504', 1003, 2024, 01, 'aprovado'),
-    ('202211876', '13004', 1001, 2024, 01, 'matriculado'), ('202211876', '14504', 1003, 2024, 01, 'aprovado'),
-    ('202218417', '16402', 1001, 2024, 01, 'matriculado')
+    ('202211589', '13004', 1001, 2024, 01, 'matriculado', 1), ('202211589', '13002', 1004, 2024, 01, 'matriculado', 2),
+    ('202211589', '14502', 1003, 2024, 01, 'aprovado', 1), ('202211589', '13004', 1001, 2023, 02, 'reprovado', 3),
+    ('202211589', '16402', 1003, 2024, 01, 'aprovado', 3), ('202211589', '14504', 1003, 2024, 01, 'aprovado', 1),
+    ('202211876', '13004', 1001, 2024, 01, 'matriculado', 4), ('202211876', '14504', 1003, 2024, 01, 'aprovado', 5),
+    ('202218417', '16402', 1001, 2024, 01, 'matriculado', 1)
 
 
