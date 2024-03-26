@@ -6,25 +6,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Home</title>
+    <title>Área da Secretaria</title>
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
-    <h1 class="titulo">AGIS</h1>
+    <div>
+      <jsp:include page="menu.jsp"/>
+    </div>
     <main>
-      <h2>Home</h2>
+      <h1>Área da Secretaria</h1>
+      <p>Ainda não está 100% implementada.</p>
       <br />
+      <!-- TODO: Área da Secretaria -->
       <div>
-        <a class="btn" href="area_secretaria.jsp">Área da Secretaria</a>
-      </div>
-      <br />
-      <div>
-        <a class="btn" href="area_aluno.jsp">Área do Aluno</a>
-      </div>
-      <br />
-      <div>
-        <a class="btn" href="area_professor.jsp">Área do Professor</a>
+        <a class="btn" href="secretaria_manter_aluno.jsp">Manter Aluno</a>
       </div>
     </main>
   </body>

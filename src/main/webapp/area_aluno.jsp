@@ -6,25 +6,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Home</title>
+    <title>Área do Aluno</title>
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
-    <h1 class="titulo">AGIS</h1>
+    <div>
+      <jsp:include page="menu.jsp"/>
+    </div>
     <main>
-      <h2>Home</h2>
-      <br />
+      <h1>Área do Aluno</h1>
       <div>
-        <a class="btn" href="area_secretaria.jsp">Área da Secretaria</a>
+        <a class="btn" href="${pageContext.request.contextPath}/realizar_matricula">
+          Realizar Matricula
+        </a>
       </div>
-      <br />
       <div>
-        <a class="btn" href="area_aluno.jsp">Área do Aluno</a>
-      </div>
-      <br />
-      <div>
-        <a class="btn" href="area_professor.jsp">Área do Professor</a>
+        <a class="btn" href="aluno_consultar_disciplinas.jsp">
+          Consultar Disciplinas Matriculadas
+        </a>
       </div>
     </main>
   </body>
