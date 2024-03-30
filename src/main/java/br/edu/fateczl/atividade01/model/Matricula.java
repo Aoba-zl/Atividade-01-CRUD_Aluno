@@ -20,4 +20,9 @@ public class Matricula
     Aluno aluno;
     Curso curso;
     List<MatriculaDisciplina> matriculaDisciplinas;
+
+    @Override
+    public String toString() {
+        return (this.ra);
+    }
 }
