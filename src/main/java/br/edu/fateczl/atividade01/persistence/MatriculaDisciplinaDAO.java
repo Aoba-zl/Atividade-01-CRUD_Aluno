@@ -57,12 +57,10 @@ public class MatriculaDisciplinaDAO
             throws SQLException, ClassNotFoundException
     {
         Connection c = gdao.getConnection();
-        StringBuilder query = new StringBuilder();
-        query.append("SELECT fn.id AS id ,fn.horario_inicio AS horario_inicio, fn.numero_aulas AS numero_aulas,");
-        query.append("fn.horario_termino AS horario_termino");
-        query.append("FROM fn_horarios_disponiveis (?, ?, ?) AS fn");
+        String query = "SELECT fn.id AS id ,fn.horario_inicio AS horario_inicio, fn.numero_aulas AS numero_aulas, " +
+                "fn.horario_termino AS horario_termino FROM fn_horarios_disponiveis (?, ?, ?) AS fn ";
 
-        PreparedStatement ps = c.prepareStatement(query.toString());
+        PreparedStatement ps = c.prepareStatement(query);
         ps.setInt(1, dia);
         ps.setString(2, ra);
         ps.setString(3, carga_disciplina);
@@ -74,8 +72,8 @@ public class MatriculaDisciplinaDAO
             Horario horario = new Horario();
             horario.setCodigo(rs.getString("id"));
             horario.setHorario_inicio(rs.getTime("horario_inicio"));
-            horario.setHorario_termino(rs.getTime("horario_fim"));
-            horario.setNumero_aulas(rs.getInt("num_aulas"));
+            horario.setHorario_termino(rs.getTime("horario_termino"));
+            horario.setNumero_aulas(rs.getInt("numero_aulas"));
             horarios.add(horario);
         }
 

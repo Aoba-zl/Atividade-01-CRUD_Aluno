@@ -26,7 +26,7 @@ public class DisciplinaDAO
         {
             disciplina.setCodigo(rs.getInt("codigo"));
             disciplina.setNome(rs.getString("nome"));
-            disciplina.setNome(rs.getString("horas_semanais"));
+            disciplina.setHoras_semanais(rs.getInt("horas_semanais"));
         }
 
         return disciplina;
