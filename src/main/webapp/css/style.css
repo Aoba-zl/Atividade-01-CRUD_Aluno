@@ -117,6 +117,18 @@ input[type="week"] {
   box-sizing: border-box;
 }
 
+.dado_matricula {
+  padding: 0;
+  flex: 0;
+
+  background-color: #e6dae1;
+  color: black;
+
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
 textarea {
   padding: 10px 20px;
   font-size: 1em;

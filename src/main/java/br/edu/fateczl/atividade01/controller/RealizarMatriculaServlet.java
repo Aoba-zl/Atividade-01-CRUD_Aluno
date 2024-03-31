@@ -32,8 +32,55 @@ public class RealizarMatriculaServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        RequestDispatcher rd = request.getRequestDispatcher("aluno_realizar_matricula.jsp");
-        rd.forward(request, response);
+        //ra=202211589&cd=1003&n=engenharia 1&d=2
+        String ra = request.getParameter("ra");
+        String cod_disc = request.getParameter("cd");
+        String nome_disc = request.getParameter("n");
+        String dia = request.getParameter("d");
+        String acao = request.getParameter("acao");
+
+        String saida = "";
+        String erro = "";
+
+        List<Horario> horarios = new ArrayList<>();
+        Disciplina disciplina_selecionada = new Disciplina();
+        Matricula matricula = new Matricula();
+        List<MatriculaDisciplina> matriculasDisciplina = new ArrayList<>();
+        matricula.setRa(ra);
+
+        try
+        {
+            if (acao.equalsIgnoreCase("selecionar"))
+            {
+                acao="SELECIONAR";
+                matriculasDisciplina = listarDisciplinasDisponiveis(ra);
+                String carga_horaria = "%";
+                if (cod_disc != null && !cod_disc.isEmpty())
+                {
+                    disciplina_selecionada = buscarDisciplina(Integer.parseInt(cod_disc));
+                    carga_horaria = String.valueOf(disciplina_selecionada.getHoras_semanais());
+                }
+                horarios = listarHorariosDisponiveis(ra, Integer.parseInt(dia), carga_horaria);
+            }
+        }
+        catch (SQLException | ClassNotFoundException e)
+        {
+            erro = e.getMessage();
+        }
+        finally
+        {
+            request.setAttribute("horarios", horarios);
+            request.setAttribute("matricula", matricula);
+            request.setAttribute("cod_disc", cod_disc);
+            request.setAttribute("nome_disc", nome_disc);
+            request.setAttribute("dia", dia);
+            request.setAttribute("saida", saida);
+            request.setAttribute("erro", erro);
+            request.setAttribute("acao", acao);
+            request.setAttribute("matriculasDisciplina", matriculasDisciplina);
+            RequestDispatcher rd = request.getRequestDispatcher("aluno_realizar_matricula.jsp");
+            rd.forward(request, response);
+        }
     }
 
     @Override
@@ -45,7 +92,7 @@ public class RealizarMatriculaServlet extends HttpServlet
         String dia_semana = request.getParameter("dia_semana");
         // dados de matricula
         String cod_disc = request.getParameter("cod_disc");
-        String cod_horario = request.getParameter("cod_hoario");
+        String cod_horario = request.getParameter("cod_horario");
         String nome_disc = request.getParameter("nome_disc");
         String horario = request.getParameter("horario");
         String dia = request.getParameter("dia");
@@ -57,14 +104,17 @@ public class RealizarMatriculaServlet extends HttpServlet
         String matricula_valida;
 
         List<MatriculaDisciplina> matriculasDisciplina = new ArrayList<>();
-        List<Horario> horarios = new ArrayList<>();
-        Disciplina disciplina_selecionada = new Disciplina();
         Matricula matricula = new Matricula();
 
         try
         {
             if (cmd.equalsIgnoreCase("Buscar"))
             {
+                cod_disc = "";
+                cod_horario = "";
+                nome_disc = "";
+                horario = "";
+                dia = "";
                 matricula.setRa(ra);
                 matricula = buscarMatricula(matricula);
                 if (matricula.toString() == null)
@@ -82,19 +132,6 @@ public class RealizarMatriculaServlet extends HttpServlet
                 matricula.setRa(ra);
                 acao="SELECIONAR";
                 matriculasDisciplina = listarDisciplinasDisponiveis(ra);
-            }
-            if (cmd.equalsIgnoreCase("Listar Horários Disponiveis"))
-            {
-                matricula.setRa(ra);
-                acao="SELECIONAR";
-                matriculasDisciplina = listarDisciplinasDisponiveis(ra);
-                String carga_horaria = "%";
-                if (cod_disc != null && !cod_disc.isEmpty())
-                {
-                    disciplina_selecionada = buscarDisciplina(Integer.parseInt(cod_disc));
-                    carga_horaria = String.valueOf(disciplina_selecionada.getHoras_semanais());
-                }
-                horarios = listarHorariosDisponiveis(ra, Integer.parseInt(dia_semana), carga_horaria);
             }
             if (cmd.equalsIgnoreCase("Listar Disciplinas Matriculadas"))
             {
@@ -114,12 +151,10 @@ public class RealizarMatriculaServlet extends HttpServlet
             request.setAttribute("saida", saida);
             request.setAttribute("erro", erro);
             request.setAttribute("acao", acao);
-            request.setAttribute("dia_semana", dia_semana);
             request.setAttribute("busca_valida", busca_valida);
             request.setAttribute("matricula_valida", matricula_valida);
             request.setAttribute("matricula", matricula);
             request.setAttribute("matriculasDisciplina", matriculasDisciplina);
-            request.setAttribute("horarios", horarios);
             //Tabela matricula
             request.setAttribute("cod_disc", cod_disc);
             request.setAttribute("cod_horario", cod_horario);

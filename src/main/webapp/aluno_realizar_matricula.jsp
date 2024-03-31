@@ -23,54 +23,6 @@
           <input type="submit" name="botao" value="Buscar">
         </div>
         <div>
-<%--          <table class="tabela_matricula">--%>
-<%--            <thead>--%>
-<%--              <th>Código Disciplina</th>--%>
-<%--              <th>Disciplina</th>--%>
-<%--              <th>Código Horário</th>--%>
-<%--              <th>Horário</th>--%>
-<%--              <th>Dia</th>--%>
-<%--            </thead>--%>
-<%--            <tbody>--%>
-<%--              <tr id="linha_matricula">--%>
-<%--                <td name="cod_disc" id="cod_disc"><c:out value="${ cod_disc }"/></td>--%>
-<%--                <td name="nome_disc" id="nome_disc"><c:out value="${ nome_disc }"/></td>--%>
-<%--                <td name="cod_hoario" id="cod_hoario"><c:out value="${ cod_hoario }"/></td>--%>
-<%--                <td name="horario" id="horario"><c:out value="${ horario }"/></td>--%>
-<%--                <td name="dia" id="dia"><c:out value="${ dia }"/></td>--%>
-<%--              </tr>--%>
-<%--            </tbody>--%>
-<%--          </table>--%>
-  <%-- TODO: --%>
-          <input disabled id="i_cod_disc" type="text" placeholder="Código Disciplina" class="dado_matricula" value="${ cod_disc }">
-          <input disabled id="i_nome_disc" type="text" placeholder="Nome Disciplina" class="dado_matricula" value="${ nome_disc }">
-          <input disabled id="i_cod_hoario" type="text" placeholder="Código Horário" class="dado_matricula" value="${ cod_hoario }">
-          <input disabled id="i_horario" type="text" placeholder="Horário" class="dado_matricula" value="${ horario }">
-          <input disabled id="i_dia" type="text" placeholder="Dia da Semana" class="dado_matricula" value="${ dia }">
-          <input type="hidden" id="cod_disc" name="cod_disc" value="${ cod_disc }">
-          <input type="hidden" id="nome_disc" name="nome_disc" value="${ nome_disc }">
-          <input type="hidden" id="cod_hoario" name="cod_hoario" value="${ cod_hoario }">
-          <input type="hidden" id="horario" name="horario" value="${ horario }">
-          <input type="hidden" id="dia" name="dia" value="${ dia }">
-        </div>
-          <div>
-            <label for="dia_semana">Dia da Semana</label>
-            <select name="dia_semana" id="dia_semana">
-              <option value="2">Segunda-Feira</option>
-              <option value="3">Terça-Feira</option>
-              <option value="4">Quarta-Feira</option>
-              <option value="5">Quinta-Feira</option>
-              <option value="6">Sexta-Feira</option>
-              <option value="7">Sábado</option>
-            </select>
-            <input
-                    type="submit"
-                    name="botao"
-                    value="Realizar Matricula"
-                    <c:if test="${ empty matricula_valida }"> disabled </c:if>
-            />
-          </div>
-        <div>
           <input
                   type="submit"
                   value="Listar Disciplinas Disponiveis"
@@ -85,62 +37,68 @@
                   class="esticado"
                   <c:if test="${ empty busca_valida }"> disabled </c:if>
           />
-          <input
-                  type="submit"
-                  value="Listar Horários Disponiveis"
-                  name="botao"
-                  class="esticado"
-                  <c:if test="${ empty busca_valida }"> disabled </c:if>
-          />
         </div>
-        <div>
-          <table class="tabela_container">
+        <div class="tabela_container">
+          <table>
             <thead>
-              <th>Código</th>
-              <th>Nome</th>
-              <th>Situação</th>
-              <th>Ação</th>
+            <th>Código</th>
+            <th>Nome</th>
+            <th>Situação</th>
+            <th>Ação</th>
             </thead>
             <tbody>
-              <c:if test="${ not empty matriculasDisciplina }">
-                <c:forEach items="${matriculasDisciplina}" var="md">
-                  <tr id="${md.disciplina.codigo}">
-                    <td><c:out value="${md.disciplina.codigo}"/></td>
-                    <td><c:out value="${md.disciplina.nome}"/></td>
-                    <td><c:out value="${md.situacao}"/></td>
-                    <td>
-                      <a class="acao" onclick="selecionar_disciplina('${md.disciplina.codigo}')">
-                        <c:if test="${ acao eq 'SELECIONAR' }"> Selecionar </c:if>
-                        <c:if test="${ acao eq 'ALTERAR' }"> Alterar </c:if>
-                      </a>
-                    </td>
-                  </tr>
-                </c:forEach>
-              </c:if>
-            </tbody>
-          </table>
-          <table class="tabela_container">
-            <thead>
-              <th>Hr Inicio</th>
-              <th>Nº de Aulas</th>
-              <th>Hr término</th>
-              <th>Ação</th>
-            </thead>
-            <tbody>
-            <c:if test="${ not empty horarios }">
-              <c:forEach items="${horarios}" var="h">
-                <tr id="${h.codigo}">
-                <td><c:out value="${h.horario_inicio}"/></td>
-                <td><c:out value="${h.numero_aulas}"/></td>
-                <td><c:out value="${h.horario_termino}"/></td>
-                <td>
-                  <a class="acao" onclick="selecionar_horario('${h.codigo}')">Selecionar</a>
-                </td>
+            <c:if test="${ not empty matriculasDisciplina }">
+              <c:forEach items="${matriculasDisciplina}" var="md">
+                <tr>
+                  <td><c:out value="${md.disciplina.codigo}"/></td>
+                  <td><c:out value="${md.disciplina.nome}"/></td>
+                  <td><c:out value="${md.situacao}"/></td>
+                  <td> <%-- TODO: configurar URL --%>
+                    <a class="acao" id="${md.disciplina.codigo}"
+                       onclick="selecionar_disciplina('${md.disciplina.codigo}')"
+                       data-ra="${matricula.ra}" data-cod_disc="${md.disciplina.codigo}"
+                       data-nome_disc="${md.disciplina.nome}"
+                            <c:if test="${ acao eq 'SELECIONAR' }"> data-acao="SELECIONAR" >Selecionar </c:if>
+                            <c:if test="${ acao eq 'ALTERAR' }"> data-acao="ALTERAR" >Alterar </c:if>
+                    </a>
+                  </td>
                 </tr>
               </c:forEach>
             </c:if>
             </tbody>
           </table>
+        </div>
+        <div>
+          <select name="dia_semana" id="dia_semana">
+            <option <c:if test="${dia} eq 2">selected="selected"</c:if> value="2">Segunda-Feira</option>
+            <option <c:if test="${dia} eq 3">selected="selected"</c:if> value="3">Terça-Feira</option>
+            <option <c:if test="${dia} eq 4">selected="selected"</c:if> value="4">Quarta-Feira</option>
+            <option <c:if test="${dia} eq 5">selected="selected"</c:if> value="5">Quinta-Feira</option>
+            <option <c:if test="${dia} eq 6">selected="selected"</c:if> value="6">Sexta-Feira</option>
+            <option <c:if test="${dia} eq 7">selected="selected"</c:if> value="7">Sábado</option>
+          </select>
+        </div>
+        <div>
+          <input disabled id="i_cod_disc" type="text" placeholder="Código Disciplina" class="dado_matricula" value="${ cod_disc }">
+          <input disabled id="i_nome_disc" type="text" placeholder="Nome Disciplina" class="dado_matricula" value="${ nome_disc }">
+          <%-- TODO: configurar horário --%>
+          <select name="horario" id="horario">
+            <option value="00000">Escolha um horário</option>
+            <c:forEach items="${horarios}" var="h">
+              <option value="${h.codigo}">${h.horario_inicio}; ${h.numero_aulas} aulas</option>
+            </c:forEach>
+          </select>
+          <%-- Solução de contorno --%>
+          <input type="hidden" id="cod_disc" name="cod_disc" value="${ cod_disc }">
+          <input type="hidden" id="nome_disc" name="nome_disc" value="${ nome_disc }">
+        </div>
+        <div>
+          <input
+                  type="submit"
+                  name="botao"
+                  value="Realizar Matricula"
+                  <c:if test="${ empty matricula_valida }"> disabled </c:if>
+          />
         </div>
         <div>
           <c:if test="${not empty erro}">
@@ -154,12 +112,7 @@
     </main>
   </body>
   <script>
-    function selecionar_disciplina(id) {
-      // Obtém os elementos da linha original
-      var linhaOriginal = document.getElementById(id)
-      var codigo = linhaOriginal.cells[0].innerText
-      var nome = linhaOriginal.cells[1].innerText
-
+    function get_dia() {
       var select = document.getElementById('dia_semana')
       var dia_n = select.value
       var dia = ""
@@ -174,6 +127,27 @@
         case '7': dia = 'Sábado'; break;
         default: dia = 'Domingo'; break;
       }
+      return dia
+    }
+
+    function selecionar_disciplina(id) {
+      var hiperlink = document.getElementById(id)
+      var ra = hiperlink.getAttribute('data-ra')
+      var cod_disc = hiperlink.getAttribute('data-cod_disc')
+      var nome_disc = hiperlink.getAttribute('data-nome_disc')
+      var acao = hiperlink.getAttribute('data-acao')
+      var select = document.getElementById('dia_semana')
+      var dia = select.value
+      window.location.href = "${pageContext.request.contextPath}/realizar_matricula?ra="+ra+"&cd="+cod_disc+"&n="+nome_disc+"&d="+dia+"&acao="+acao
+
+    }
+    /*
+      // Obtém os elementos da linha original
+      var linhaOriginal = document.getElementById(id)
+      var codigo = linhaOriginal.cells[0].innerText
+      var nome = linhaOriginal.cells[1].innerText
+
+
 
       // passa os valores para os inputs de matricula
       var c_disciplina = document.getElementById('cod_disc')
@@ -192,6 +166,18 @@
     }
 
     function selecionar_horario(id) {
-    }
+      var codigo = id
+      var linhaOriginal = document.getElementById(id)
+      var val_horario = linhaOriginal.cells[0].innerText
+
+      var cod_horario = document.getElementById('cod_horario')
+      var horario = document.getElementById('horario')
+      var i_cod_horario = document.getElementById('i_cod_horario')
+      var i_horario = document.getElementById('i_horario')
+      cod_horario.value = codigo
+      horario.value = val_horario
+      i_cod_horario.value = codigo
+      i_horario.value = val_horario
+    }*/
   </script>
 </html>
