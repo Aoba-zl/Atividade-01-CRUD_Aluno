@@ -34,19 +34,17 @@ public class MatriculaDisciplinaDAO
             throws SQLException, ClassNotFoundException
     {
         Connection c = gdao.getConnection();
-        String query = "{CALL sp_iud_matricula_disciplina (?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+        String query = "{CALL sp_iud_matricula_disciplina (?, ?, ?, ?, ?, ?, ?)}";
         CallableStatement cs = c.prepareCall(query);
         cs.setString(1, modo);
         cs.setInt(2, matriculaDisciplina.getId());
         cs.setString(3, matriculaDisciplina.getHorario().getCodigo());
         cs.setString(4, matricula.getRa());
-        cs.setInt(5, matricula.getCurso().getCodigo());
-        cs.setInt(6, matriculaDisciplina.getAno());
-        cs.setInt(7, matriculaDisciplina.getSemestre());
-        cs.setString(8, matriculaDisciplina.getSituacao());
-        cs.registerOutParameter(9, Types.VARCHAR);
+        cs.setInt(5, matriculaDisciplina.getDisciplina().getCodigo());
+        cs.setInt(6, matriculaDisciplina.getDia_semana());
+        cs.registerOutParameter(7, Types.VARCHAR);
         cs.execute();
-        String saida = cs.getString(9);
+        String saida = cs.getString(7);
 
         cs.close();
         c.close();

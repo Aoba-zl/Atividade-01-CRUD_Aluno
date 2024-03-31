@@ -41,6 +41,7 @@ public class RealizarMatriculaServlet extends HttpServlet
 
         String saida = "";
         String erro = "";
+        String matricula_valida = "";
 
         List<Horario> horarios = new ArrayList<>();
         Disciplina disciplina_selecionada = new Disciplina();
@@ -61,6 +62,7 @@ public class RealizarMatriculaServlet extends HttpServlet
                     carga_horaria = String.valueOf(disciplina_selecionada.getHoras_semanais());
                 }
                 horarios = listarHorariosDisponiveis(ra, Integer.parseInt(dia), carga_horaria);
+                erro = horarios.isEmpty() ? "Não há horários disponives para " + get_dia_semana(Integer.parseInt(dia)): "";
             }
         }
         catch (SQLException | ClassNotFoundException e)
@@ -69,6 +71,9 @@ public class RealizarMatriculaServlet extends HttpServlet
         }
         finally
         {
+            matricula_valida = !horarios.isEmpty() ? "valido": "";
+            request.setAttribute("matricula_valida", matricula_valida);
+            request.setAttribute("busca_valida", "valido");
             request.setAttribute("horarios", horarios);
             request.setAttribute("matricula", matricula);
             request.setAttribute("cod_disc", cod_disc);
@@ -92,31 +97,31 @@ public class RealizarMatriculaServlet extends HttpServlet
         String dia_semana = request.getParameter("dia_semana");
         // dados de matricula
         String cod_disc = request.getParameter("cod_disc");
-        String cod_horario = request.getParameter("cod_horario");
         String nome_disc = request.getParameter("nome_disc");
         String horario = request.getParameter("horario");
-        String dia = request.getParameter("dia");
 
         String saida = "";
         String erro = "";
-        String acao = "";
+        String acao = request.getParameter("acao") == null? "" : request.getParameter("acao");
         String busca_valida;
-        String matricula_valida;
 
         List<MatriculaDisciplina> matriculasDisciplina = new ArrayList<>();
         Matricula matricula = new Matricula();
 
         try
         {
+            if (!cmd.isEmpty())
+            {
+                matricula.setRa(ra);
+                matricula = buscarMatricula(matricula);
+            }
             if (cmd.equalsIgnoreCase("Buscar"))
             {
                 cod_disc = "";
-                cod_horario = "";
                 nome_disc = "";
                 horario = "";
-                dia = "";
-                matricula.setRa(ra);
                 matricula = buscarMatricula(matricula);
+                matriculasDisciplina = new ArrayList<>();
                 if (matricula.toString() == null)
                     erro = "Matricula não encontrada";
                 else
@@ -124,18 +129,19 @@ public class RealizarMatriculaServlet extends HttpServlet
             }
             if (cmd.equalsIgnoreCase("Realizar Matricula"))
             {
-                saida = realizarMatricula(ra, cod_disc, cod_horario, dia_semana);
-                matricula = new Matricula();
+                // TODO: reallizar matricula
+                saida = realizarMatricula(matricula, cod_disc, horario, dia_semana);
+                cod_disc = "";
+                nome_disc = "";
+                horario = "";
             }
             if (cmd.equalsIgnoreCase("Listar Disciplinas Disponiveis"))
             {
-                matricula.setRa(ra);
                 acao="SELECIONAR";
                 matriculasDisciplina = listarDisciplinasDisponiveis(ra);
             }
             if (cmd.equalsIgnoreCase("Listar Disciplinas Matriculadas"))
             {
-                matricula.setRa(ra);
                 acao="ALTERAR";
                 matriculasDisciplina = listarDisciplinasDisponiveis(ra);
             }
@@ -146,21 +152,17 @@ public class RealizarMatriculaServlet extends HttpServlet
         finally
         {
             busca_valida = (dia_semana != null && matricula.getRa() != null)?"valido":"";
-            matricula_valida = (dia_semana != null && cod_disc != null && cod_horario != null)?"valido":"";
 
             request.setAttribute("saida", saida);
             request.setAttribute("erro", erro);
             request.setAttribute("acao", acao);
             request.setAttribute("busca_valida", busca_valida);
-            request.setAttribute("matricula_valida", matricula_valida);
             request.setAttribute("matricula", matricula);
             request.setAttribute("matriculasDisciplina", matriculasDisciplina);
             //Tabela matricula
             request.setAttribute("cod_disc", cod_disc);
-            request.setAttribute("cod_horario", cod_horario);
             request.setAttribute("nome_disc", nome_disc);
             request.setAttribute("horario", horario);
-            request.setAttribute("dia", dia);
 
             RequestDispatcher rd = request.getRequestDispatcher("aluno_realizar_matricula.jsp");
             rd.forward(request, response);
@@ -175,11 +177,22 @@ public class RealizarMatriculaServlet extends HttpServlet
         return matriculaDAO.buscarMatricula(matricula);
     }
 
-    private String realizarMatricula(String ra, String codDisc, String codHorario, String diaSemana)
+    private String realizarMatricula(Matricula matricula, String codDisc, String codHorario, String diaSemana)
             throws SQLException, ClassNotFoundException
     {
         // TODO: Linkar com MatriculaDisciplinaDAO
-        return "Matricula realizada com sucesso";
+        GenericDAO gdao = new GenericDAO();
+        MatriculaDisciplinaDAO md_dao = new MatriculaDisciplinaDAO(gdao);
+
+        Disciplina d = new Disciplina();
+        d.setCodigo(Integer.parseInt(codDisc));
+        Horario h = new Horario();
+        h.setCodigo(codHorario);
+        MatriculaDisciplina matriculaDisciplina = new MatriculaDisciplina();
+        matriculaDisciplina.setDisciplina(d);
+        matriculaDisciplina.setHorario(h);
+        matriculaDisciplina.setDia_semana(Integer.parseInt(diaSemana));
+        return md_dao.insert(matricula, matriculaDisciplina);
     }
 
     private List<MatriculaDisciplina> listarDisciplinasMatriculadas(String ra)

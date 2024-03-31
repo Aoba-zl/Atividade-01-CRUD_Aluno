@@ -112,24 +112,6 @@
     </main>
   </body>
   <script>
-    function get_dia() {
-      var select = document.getElementById('dia_semana')
-      var dia_n = select.value
-      var dia = ""
-
-      switch (dia_n)
-      {
-        case '2': dia = 'Segunda-Feira'; break;
-        case '3': dia = 'Terça-Feira'; break;
-        case '4': dia = 'Quarta-Feira'; break;
-        case '5': dia = 'Quinta-Feira'; break;
-        case '6': dia = 'Sexta-Feira'; break;
-        case '7': dia = 'Sábado'; break;
-        default: dia = 'Domingo'; break;
-      }
-      return dia
-    }
-
     function selecionar_disciplina(id) {
       var hiperlink = document.getElementById(id)
       var ra = hiperlink.getAttribute('data-ra')
@@ -141,43 +123,5 @@
       window.location.href = "${pageContext.request.contextPath}/realizar_matricula?ra="+ra+"&cd="+cod_disc+"&n="+nome_disc+"&d="+dia+"&acao="+acao
 
     }
-    /*
-      // Obtém os elementos da linha original
-      var linhaOriginal = document.getElementById(id)
-      var codigo = linhaOriginal.cells[0].innerText
-      var nome = linhaOriginal.cells[1].innerText
-
-
-
-      // passa os valores para os inputs de matricula
-      var c_disciplina = document.getElementById('cod_disc')
-      var n_disciplina = document.getElementById('nome_disc')
-      var dia_selecionado = document.getElementById('dia')
-      var i_c_disciplina = document.getElementById('i_cod_disc')
-      var i_n_disciplina = document.getElementById('i_nome_disc')
-      var i_dia_selecionado = document.getElementById('i_dia')
-      c_disciplina.value = codigo
-      n_disciplina.value = nome
-      dia_selecionado.value = dia
-      i_c_disciplina.value = codigo
-      i_n_disciplina.value = nome
-      i_dia_selecionado.value = dia
-
-    }
-
-    function selecionar_horario(id) {
-      var codigo = id
-      var linhaOriginal = document.getElementById(id)
-      var val_horario = linhaOriginal.cells[0].innerText
-
-      var cod_horario = document.getElementById('cod_horario')
-      var horario = document.getElementById('horario')
-      var i_cod_horario = document.getElementById('i_cod_horario')
-      var i_horario = document.getElementById('i_horario')
-      cod_horario.value = codigo
-      horario.value = val_horario
-      i_cod_horario.value = codigo
-      i_horario.value = val_horario
-    }*/
   </script>
 </html>
