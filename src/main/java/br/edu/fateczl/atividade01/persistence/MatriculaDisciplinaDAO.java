@@ -93,8 +93,9 @@ public class MatriculaDisciplinaDAO
         {
             Disciplina disciplina = new Disciplina();
             MatriculaDisciplina matriculaDisciplina = new MatriculaDisciplina();
+            DisciplinaDAO discDao = new DisciplinaDAO(gdao);
             disciplina.setCodigo(rs.getInt("codigo"));
-            disciplina.setNome(rs.getString("nome"));
+            disciplina = discDao.buscarDisciplina(disciplina);
             matriculaDisciplina.setSituacao(rs.getString("situacao"));
             matriculaDisciplina.setDisciplina(disciplina);
 
@@ -108,12 +109,11 @@ public class MatriculaDisciplinaDAO
             throws SQLException, ClassNotFoundException
     {
         Connection c = gdao.getConnection();
-        StringBuilder query = new StringBuilder();
-        query.append("SELECT DISTINCT md.id AS id, d.codigo AS codigo, d.nome AS nome, md.estado AS situacao ");
-        query.append("FROM matricula_disciplina md, disciplina d ");
-        query.append("WHERE md.ra_matricula = ? AND md.estado LIKE 'matriculado' ");
+        String query = "SELECT fn.id AS id, fn.codigo AS cod, fn.nome AS nome, " +
+        "fn.numero_aulas AS num_aulas, fn.horario AS horario, fn.dia AS dia " +
+        "FROM fn_disciplinas_matriculadas(?) AS fn ";
 
-        PreparedStatement ps = c.prepareCall(query.toString());
+        PreparedStatement ps = c.prepareStatement(query);
         ps.setString(1, ra);
 
         List<MatriculaDisciplina> disciplinas = new ArrayList<>();
@@ -121,12 +121,20 @@ public class MatriculaDisciplinaDAO
         while (rs.next())
         {
             MatriculaDisciplina matricula = new MatriculaDisciplina();
-            Disciplina disciplina = new Disciplina();
-            disciplina.setCodigo(rs.getInt("codigo"));
-            disciplina.setNome(rs.getString("nome"));
+            Disciplina d = new Disciplina();
+            Horario h = new Horario();
+
             matricula.setId(rs.getInt("id"));
-            matricula.setSituacao(rs.getString("situacao"));
-            matricula.setDisciplina(disciplina);
+            matricula.setDia_semana(rs.getInt("dia"));
+
+            d.setCodigo(rs.getInt("cod"));
+            d.setNome(rs.getString("nome"));
+            d.setHoras_semanais(rs.getInt("num_aulas"));
+
+            h.setHorario_inicio(rs.getTime("horario"));
+
+            matricula.setDisciplina(d);
+            matricula.setHorario(h);
             disciplinas.add(matricula);
         }
 
