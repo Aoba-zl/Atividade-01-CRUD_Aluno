@@ -13,8 +13,8 @@ public class GenericDAO
         String hostName = "localhost";
         String port = "1433";
         String dataBaseName = "Atividade_Jakarta";
-        String user = "SA";
-        String passwd = "Debora@123";
+        String user = "Usuario";
+        String passwd = "USU4rio@123";
 
         Class.forName("net.sourceforge.jtds.jdbc.Driver"); // driver
         connection = DriverManager.getConnection(String.format(

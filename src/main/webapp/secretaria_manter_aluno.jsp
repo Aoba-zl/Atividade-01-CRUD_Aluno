@@ -63,7 +63,13 @@
         </div>
         <div>
           <label for="curso">Curso</label>
-          <select name="curso" id="curso"></select>
+          <select name="curso" id="curso">
+            <c:if test="${not empty cursos}">
+              <c:forEach var="curso" items="${cursos}">
+                <option value="${curso.nome}"> ${curso.nome} </option>
+              </c:forEach>
+            </c:if>
+          </select>
         </div>
         <div>
           <label for="ra">RA</label>
