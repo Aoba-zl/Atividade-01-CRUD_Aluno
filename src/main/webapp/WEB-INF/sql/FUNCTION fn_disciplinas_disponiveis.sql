@@ -2,16 +2,21 @@
 USE Avaliacao_1_Lab_BD
 */
 
+/*
+DROP FUNCTION fn_disciplinas_disponiveis
+*/
+
 CREATE FUNCTION fn_disciplinas_disponiveis(@ra CHAR(9))
 RETURNS @table TABLE
 (
     codigo INT,
     nome VARCHAR(50),
+    numero_aulas INT,
     situacao VARCHAR(12)
 )
 BEGIN
     INSERT INTO @table
-    SELECT DISTINCT d.codigo, d.nome,
+    SELECT DISTINCT d.codigo, d.nome, d.horas_semanais,
         CASE WHEN md.estado IS NULL THEN 'disponivel' ELSE 'ja cursou' END AS situacao
     FROM curso_disciplina cd
              INNER JOIN disciplina d ON cd.cod_disciplina = d.codigo
