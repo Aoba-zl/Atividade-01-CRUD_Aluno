@@ -43,7 +43,7 @@
           <input type="text" name="inst_seg_grau" id="inst_seg_grau" />
         </div>
         <div>
-          <label for="telefone">Telefone</label>
+          <label for="telefone">Telefone *</label>
           <input type="text" name="telefone" id="telefone">
           <input type="submit" value="Adicionar">
         </div>
@@ -58,8 +58,7 @@
             <tr>
               <td>11912341234</td>
               <td>
-                <p class="acao"><a>Excluir</a></p>
-                <p class="acao"><a>Alterar</a></p>
+                <a class="acao">Excluir</a>
               </td>
             </tr>
             <%-- TODO: Tabela de numeros --%>
@@ -68,34 +67,39 @@
         </div>
         <h3>Matricula</h3>
         <div>
-          <label for="pontuacao_vest">Pontuação Vestibular</label>
-          <input type="text" name="pontuacao_vest" id="pontuacao_vest" />
-          <label for="posicao_vest">Posição Vestibular</label>
-          <input type="text" name="posicao_vest" id="posicao_vest" />
+          <label for="pontuacao_vest">Pontuação Vestibular *</label>
+          <input type="number" name="pontuacao_vest" id="pontuacao_vest" />
+          <label for="posicao_vest">Posição Vestibular *</label>
+          <input type="number" name="posicao_vest" id="posicao_vest" />
         </div>
         <div>
         </div>
         <div>
           <label for="curso">Curso</label>
           <select name="curso" id="curso"></select>
+          <label for="turno">Turno</label>
+          <select name="turno" id="turno">
+            <option value="0">Tarde</option>
+          </select>
         </div>
         <div>
           <label for="ra">RA</label>
-          <input type="number" name="ra" id="ra" disabled />
+          <input type="number" name="ra" disabled value="${matricula.ra}" />
         </div>
         <div>
           <label for="ano_i">Ano Ingresso</label>
-          <input type="date" name="ano_i" disabled value="${placeholder}" />
+          <input type="date" name="ano_i" disabled value="${matricula.ano_i}" />
           <label for="semes_i">Semestre Ingresso</label>
-          <input type="date" name="semes_i" disabled  value="${placeholder}"/>
+          <input type="date" name="semes_i" disabled  value="${matricula.semes_i}"/>
           <label for="ano_l">Ano Limite</label>
-          <input type="date" name="ano_l" disabled value="${placeholder}" />
+          <input type="date" name="ano_l" disabled value="${matricula.ano_l}" />
           <label for="semes_l">Semestre Limite</label>
-          <input type="date" name="semes_l" disabled value="${placeholder}" />
+          <input type="date" name="semes_l" disabled value="${matricula.semes_l}" />
         </div>
         <div>
           <%-- inputs responsaveis por puxar os dados gerados --%>
           <%-- TODO: Gerar dados de matricula --%>
+          <input type="hidden" name="ra" id="ra" disabled />
           <input type="hidden" name="ano_i" id="ano_i"/>
           <input type="hidden" name="semes_i" id="semes_i"/>
           <input type="hidden" name="ano_l" id="ano_l"/>
