@@ -20,7 +20,6 @@ import java.util.List;
 @WebServlet("/manter_aluno")
 public class ManterAlunoServlet extends HttpServlet {
 
-
     ManterAlunoDAO manterAlunoDAO= new ManterAlunoDAO();
 
     @Override
