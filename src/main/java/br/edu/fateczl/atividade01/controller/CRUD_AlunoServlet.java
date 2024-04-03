@@ -209,7 +209,7 @@ public class CRUD_AlunoServlet extends HttpServlet {
     {
         GenericDAO gdao = new GenericDAO();
         MatriculaDAO matriculaDAO = new MatriculaDAO(gdao);
-        return matriculaDAO.find(matricula);
+        return matriculaDAO.findCpf(matricula);
     }
 
     private String cadastarMatricula(Aluno aluno, Matricula matricula)

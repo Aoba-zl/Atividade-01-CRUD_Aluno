@@ -134,11 +134,6 @@ public class RealizarMatriculaServlet extends HttpServlet
             }
             if (cmd.equalsIgnoreCase("Buscar"))
             {
-                cod_disc = "";
-                nome_disc = "";
-                horario = "";
-                matricula = buscarMatricula(matricula);
-                matriculasDisciplina = new ArrayList<>();
                 if (matricula.toString() == null)
                     erro = "Matricula não encontrada";
                 else
@@ -216,7 +211,7 @@ public class RealizarMatriculaServlet extends HttpServlet
     {
         GenericDAO gdao = new GenericDAO();
         MatriculaDAO matriculaDAO = new MatriculaDAO(gdao);
-        return matriculaDAO.find(matricula);
+        return matriculaDAO.findRa(matricula);
     }
 
     private String realizarMatricula(Matricula matricula, String codDisc, String codHorario, String diaSemana)

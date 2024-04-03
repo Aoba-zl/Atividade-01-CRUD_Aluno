@@ -17,5 +17,6 @@ public interface I_MatriculaDAO
     public String update (Matricula matricula)	throws SQLException, ClassNotFoundException;
     public String disable (Matricula matricula)    throws SQLException, ClassNotFoundException;
     public String enable (Matricula matricula)    throws SQLException, ClassNotFoundException;
-    public Matricula find (Matricula matricula)         throws SQLException, ClassNotFoundException;
+    public Matricula findCpf(Matricula matricula)         throws SQLException, ClassNotFoundException;
+    public Matricula findRa(Matricula matricula)         throws SQLException, ClassNotFoundException;
 }
