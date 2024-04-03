@@ -14,7 +14,7 @@ import java.util.List;
 
 public class Disciplina
 {
-    int codigo, horas_semanais;
-    String nome;
-    List<Conteudo> conteudos;
+    private int codigo, horas_semanais;
+    private String nome;
+    private List<Conteudo> conteudos;
 }

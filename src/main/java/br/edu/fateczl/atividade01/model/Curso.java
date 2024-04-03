@@ -14,7 +14,7 @@ import java.util.List;
 
 public class Curso
 {
-    int codigo, carga_horaria, nota_enade;
-    String nome, sigla, turno;
-    List<Disciplina> disciplinas;
+    private int codigo, carga_horaria, nota_enade;
+    private String nome, sigla, turno;
+    private List<Disciplina> disciplinas;
 }

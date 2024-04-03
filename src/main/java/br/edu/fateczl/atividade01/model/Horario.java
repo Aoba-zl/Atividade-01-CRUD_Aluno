@@ -15,16 +15,7 @@ import java.sql.Time;
 
 public class Horario
 {
-    String codigo, turno;
-    Time horario_inicio, horario_termino;
-    int numero_aulas;
-
-    public void set_Horario_termino ()
-    {
-        long tempo_de_aulas = (50 * 60 * 1000) * this.numero_aulas;
-        if (this.numero_aulas > 2) tempo_de_aulas += (10 * 60 * 1000); // mais 10 minutos de intervalo
-        long horario_em_milisegundos = this.horario_inicio.getTime();
-        horario_em_milisegundos += tempo_de_aulas;
-        this.horario_termino.setTime(horario_em_milisegundos);
-    }
+    private String codigo, turno;
+    private Time horario_inicio, horario_termino;
+    private int numero_aulas;
 }

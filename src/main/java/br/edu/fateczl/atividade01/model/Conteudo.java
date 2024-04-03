@@ -12,6 +12,6 @@ import lombok.Setter;
 
 public class Conteudo
 {
-    int id;
-    String titulo;
+    private int id;
+    private String titulo;
 }

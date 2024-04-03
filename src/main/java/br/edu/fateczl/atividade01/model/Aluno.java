@@ -15,9 +15,9 @@ import java.util.List;
 
 public class Aluno
 {
-    String cpf, nome, nome_social,
-    email_pessoal, email_corporativo,
-    instituicao_seg_grau;
-    Date dt_nasc, dt_conclusao_seg_grau;
-    List<Telefone> telefones;
+    private String cpf, nome, nome_social,
+     email_pessoal, email_corporativo,
+     instituicao_seg_grau;
+    private Date dt_nasc, dt_conclusao_seg_grau;
+    private List<Telefone> telefones;
 }

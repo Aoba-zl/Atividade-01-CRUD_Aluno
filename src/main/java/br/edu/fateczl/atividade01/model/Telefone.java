@@ -14,7 +14,7 @@ import java.util.Objects;
 
 public class Telefone
 {
-    String numero;
+    private String numero;
 
     @Override
     public String toString() {
