@@ -9,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MatriculaDisciplinaDAO
+public class MatriculaDisciplinaDAO implements I_MatriculaDisciplinaDAO
 {
     GenericDAO gdao;
 

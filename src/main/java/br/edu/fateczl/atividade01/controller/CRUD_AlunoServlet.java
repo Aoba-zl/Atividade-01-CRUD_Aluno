@@ -2,6 +2,7 @@ package br.edu.fateczl.atividade01.controller;
 
 import br.edu.fateczl.atividade01.model.*;
 import br.edu.fateczl.atividade01.persistence.*;
+import br.edu.fateczl.atividade01.utils.MatriculaAlunoBuilder;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -70,9 +71,14 @@ public class CRUD_AlunoServlet extends HttpServlet {
         String cod_curso = request.getParameter("curso");
         String turno = request.getParameter("turno");
 
+        String ra = request.getParameter("ra");
+        String ano_i = request.getParameter("ano_i");
+        String semes_i = request.getParameter("semes_i");
+
         String erro = "";
         String saida = "";
 
+        MatriculaAlunoBuilder builder = new MatriculaAlunoBuilder();
         Matricula matricula = new Matricula();
         List<Telefone> telefones = getTelefones(request.getParameterValues("telefones"));
         List<Curso> cursos = new ArrayList<>();
@@ -90,27 +96,29 @@ public class CRUD_AlunoServlet extends HttpServlet {
                 {
                     matricula.setAluno(aluno);
                     matricula = buscarMatricula(matricula);
-                    saida = "Nenhum encontrado!";
+                    saida = "";
                 }
                 telefones = aluno.getTelefones();
             }
             if (cmd.equalsIgnoreCase("Cadastrar") || cmd.equalsIgnoreCase("Alterar"))
             {
-                MatriculaAlunoBuilder builder = new MatriculaAlunoBuilder();
                 Curso curso = new Curso();
                 curso.setCodigo(Integer.parseInt(cod_curso));
                 curso.setTurno(turno);
 
-                builder.addCpf(cpf)
-                .addCpf(cpf)
-                .addNome(nome).addNome_social(nome_soc).addDt_nasc(Date.valueOf(dt_nasc))
-                .addEmail_pessoal(email_p).addEmail_corporativo(email_c)
-                .addDt_conclusao_seg_grau(Date.valueOf(dt_seg_grau))
-                .addInstituicao_seg_grau(inst_seg_grau).addTelefones(telefones).addAluno(aluno).addCurso(curso)
-                .addPontuacao_vestibular(Integer.parseInt(pontuacao_vest))
-                .addPosicao_vestibular(Integer.parseInt(posicao_vest));
-
+                Date dt_nascimento = dt_nasc.isEmpty() ? null:Date.valueOf(dt_nasc);
+                Date dt_conclusao = dt_seg_grau.isEmpty() ? null:Date.valueOf(dt_seg_grau);
+                builder
+                        .addCpf(cpf).addNome(nome).addNome_social(nome_soc).addDt_nasc(dt_nascimento)
+                        .addEmail_pessoal(email_p).addEmail_corporativo(email_c)
+                        .addDt_conclusao_seg_grau(dt_conclusao)
+                        .addInstituicao_seg_grau(inst_seg_grau)
+                .addTelefones(telefones);
                 aluno = builder.getAluno();
+
+                builder.addAluno(aluno).addCurso(curso)
+                        .addPontuacao_vestibular(Integer.parseInt(pontuacao_vest))
+                        .addPosicao_vestibular(Integer.parseInt(posicao_vest));
                 matricula = builder.getMatricula();
             }
             if (cmd.equalsIgnoreCase("Cadastrar"))
@@ -118,22 +126,27 @@ public class CRUD_AlunoServlet extends HttpServlet {
                 saida = cadastarMatricula(aluno, matricula);
                 aluno = new Aluno();
                 matricula = new Matricula();
+                telefones = new ArrayList<>();
             }
             if (cmd.equalsIgnoreCase("Alterar"))
             {
+                int ano_ingresso = ano_i.isEmpty()? -1:Integer.parseInt(ano_i);
+                int semestre_ingresso = semes_i.isEmpty()? -1: Integer.parseInt(semes_i);
+                builder.addRa(ra).addAno_ingresso(ano_ingresso).addSemestre_ingresso(semestre_ingresso);
                 saida = alterarMatricula(aluno, matricula);
                 aluno = new Aluno();
                 matricula = new Matricula();
+                telefones = new ArrayList<>();
             }
             if (cmd.equalsIgnoreCase("Desativar Matricula"))
             {
-                saida = desativarMatricula(aluno, matricula);
+                saida = desativarMatricula(matricula);
                 aluno = new Aluno();
                 matricula = new Matricula();
             }
             if (cmd.equalsIgnoreCase("Ativar Matricula"))
             {
-                saida = ativarMatricula(aluno, matricula);
+                saida = ativarMatricula(matricula);
                 aluno = new Aluno();
                 matricula = new Matricula();
             }
@@ -181,7 +194,6 @@ public class CRUD_AlunoServlet extends HttpServlet {
     private Matricula buscarMatricula(Matricula matricula)
             throws SQLException, ClassNotFoundException
     {
-        //TODO: buscarMatricula
         GenericDAO gdao = new GenericDAO();
         MatriculaDAO matriculaDAO = new MatriculaDAO(gdao);
         return matriculaDAO.find(matricula);
@@ -190,29 +202,44 @@ public class CRUD_AlunoServlet extends HttpServlet {
     private String cadastarMatricula(Aluno aluno, Matricula matricula)
             throws SQLException, ClassNotFoundException
     {
-        //TODO: cadastarMatricula
-        return null;
+        GenericDAO gdao = new GenericDAO();
+        ICRUD<Aluno> alunoDAO = new AlunoDAO(gdao);
+        MatriculaDAO matriculaDAO = new MatriculaDAO(gdao);
+        TelefoneDAO telefoneDAO = new TelefoneDAO(gdao);
+
+        alunoDAO.insert(aluno);
+        for (Telefone telefone : aluno.getTelefones())
+            telefoneDAO.insert(aluno, telefone);
+        return matriculaDAO.insert(matricula);
     }
 
     private String alterarMatricula(Aluno aluno, Matricula matricula)
             throws SQLException, ClassNotFoundException
     {
-        //TODO: alterarMatricula
-        return null;
+        GenericDAO gdao = new GenericDAO();
+        MatriculaDAO matriculaDAO = new MatriculaDAO(gdao);
+        ICRUD<Aluno> alunoDAO = new AlunoDAO(gdao);
+        TelefoneDAO telefoneDAO = new TelefoneDAO(gdao);
+
+        alunoDAO.update(aluno);
+        telefoneDAO.update(aluno);
+        return matriculaDAO.update(matricula);
     }
 
-    private String desativarMatricula(Aluno aluno, Matricula matricula)
+    private String desativarMatricula(Matricula matricula)
             throws SQLException, ClassNotFoundException, NullPointerException
     {
-        //TODO: desativarMatricula
-        return null;
+        GenericDAO gdao = new GenericDAO();
+        MatriculaDAO matriculaDAO = new MatriculaDAO(gdao);
+        return matriculaDAO.disable(matricula);
     }
 
-    private String ativarMatricula(Aluno aluno, Matricula matricula)
+    private String ativarMatricula(Matricula matricula)
             throws SQLException, ClassNotFoundException
     {
-        //TODO: ativarMatricula
-        return null;
+        GenericDAO gdao = new GenericDAO();
+        MatriculaDAO matriculaDAO = new MatriculaDAO(gdao);
+        return matriculaDAO.enable(matricula);
     }
 
     private List<Curso> buscarCursos()

@@ -1,16 +1,11 @@
 package br.edu.fateczl.atividade01.persistence;
 
-import br.edu.fateczl.atividade01.model.Aluno;
 import br.edu.fateczl.atividade01.model.Curso;
 import br.edu.fateczl.atividade01.model.Matricula;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
+import java.sql.*;
 
-public class MatriculaDAO //implements ICRUD<Matricula>
+public class MatriculaDAO implements I_MatriculaDAO<Matricula>
 {
     GenericDAO gdao;
 
@@ -50,14 +45,40 @@ public class MatriculaDAO //implements ICRUD<Matricula>
     }
 
     public String insert(Matricula matricula) throws SQLException, ClassNotFoundException {
-        return null;
+        return iud_matricula("I", matricula);
     }
 
     public String update(Matricula matricula) throws SQLException, ClassNotFoundException {
-        return null;
+        return iud_matricula("U", matricula);
     }
 
-    public String delete(Matricula matricula) throws SQLException, ClassNotFoundException {
-        return null;
+    public String disable(Matricula matricula) throws SQLException, ClassNotFoundException {
+        return iud_matricula("D", matricula);
+    }
+
+    public String enable(Matricula matricula) throws SQLException, ClassNotFoundException {
+        return iud_matricula("A", matricula);
+    }
+
+    private String iud_matricula(String modo, Matricula matricula) throws SQLException, ClassNotFoundException
+    {
+        Connection con = gdao.getConnection();
+        String query = "{ CALL sp_uid_matricula(?, ?, ?, ?, ?, ?, ?, ?, ?) }";
+        CallableStatement cs = con.prepareCall(query);
+        cs.setString(1, modo);
+        cs.setString(2, matricula.getRa());
+        cs.setString(3, matricula.getAluno().getCpf());
+        cs.setInt(4, matricula.getCurso().getCodigo());
+        cs.setInt(5, matricula.getPontuacao_vestibular());
+        cs.setInt(6, matricula.getPosicao_vestibular());
+        cs.setInt(7, matricula.getAno_ingresso());
+        cs.setInt(8, matricula.getSemestre_ingresso());
+        cs.registerOutParameter(9, Types.VARCHAR);
+        cs.execute();
+        String saida = cs.getString(9);
+
+        cs.close();
+        con.close();
+        return saida;
     }
 }

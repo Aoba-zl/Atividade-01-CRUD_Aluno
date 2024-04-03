@@ -2,10 +2,7 @@ package br.edu.fateczl.atividade01.persistence;
 
 import br.edu.fateczl.atividade01.model.Aluno;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,17 +16,40 @@ public class AlunoDAO implements ICRUD<Aluno>
 
     @Override
     public String insert(Aluno aluno) throws SQLException, ClassNotFoundException {
-        return null;
+        return iud_aluno("I", aluno);
     }
 
     @Override
     public String update(Aluno aluno) throws SQLException, ClassNotFoundException {
-        return null;
+        return iud_aluno("U", aluno);
     }
 
     @Override
     public String delete(Aluno aluno) throws SQLException, ClassNotFoundException {
-        return null;
+        return iud_aluno("D", aluno);
+    }
+
+    private String iud_aluno(String modo, Aluno aluno) throws SQLException, ClassNotFoundException
+    {
+        Connection con = gdao.getConnection();
+        String query = "{ CALL sp_iud_aluno(?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }";
+        CallableStatement cs = con.prepareCall(query);
+        cs.setString(1, modo);
+        cs.setString(2, aluno.getCpf());
+        cs.setString(3, aluno.getNome());
+        cs.setString(4, aluno.getNome_social());
+        cs.setDate(5, aluno.getDt_nasc());
+        cs.setString(6, aluno.getEmail_pessoal());
+        cs.setString(7, aluno.getEmail_corporativo());
+        cs.setDate(8, aluno.getDt_conclusao_seg_grau());
+        cs.setString(9, aluno.getInstituicao_seg_grau());
+        cs.registerOutParameter(10, Types.VARCHAR);
+        cs.execute();
+        String saida = cs.getString(10);
+
+        cs.close();
+        con.close();
+        return saida;
     }
 
     @Override

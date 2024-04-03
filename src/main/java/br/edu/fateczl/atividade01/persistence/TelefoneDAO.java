@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TelefoneDAO //implements ICRUD<Telefone>
+public class TelefoneDAO implements I_TelefoneDAO
 {
     GenericDAO gdao;
 
@@ -15,14 +15,47 @@ public class TelefoneDAO //implements ICRUD<Telefone>
         this.gdao = gdao;
     }
 
-    public String insert(Aluno aluno, Telefone telefone) throws SQLException, ClassNotFoundException
+    public void insert(Aluno aluno, Telefone telefone) throws SQLException, ClassNotFoundException
     {
-        return id_telefone("I", aluno, telefone);
+        id_telefone("I", aluno, telefone);
     }
 
-    public String delete(Aluno aluno, Telefone telefone) throws SQLException, ClassNotFoundException
+    @Override
+    public void update(Aluno aluno) throws SQLException, ClassNotFoundException
     {
-        return id_telefone("D", aluno, telefone);
+        Connection con = gdao.getConnection();
+        List<Telefone> telefones_bd = list(aluno);
+        List<Telefone> delete = getNoContains(telefones_bd, aluno.getTelefones());
+        List<Telefone> insert = getNoContains(aluno.getTelefones(), telefones_bd);
+
+        if (!delete.isEmpty())
+        {
+            for (Telefone telefone : delete)
+                delete(aluno, telefone);
+        }
+        if (!insert.isEmpty())
+        {
+            for (Telefone telefone : insert)
+                insert(aluno, telefone);
+        }
+    }
+
+    private List<Telefone> getNoContains(List<Telefone> listA, List<Telefone> listB)
+    {
+        List<Telefone> result = new ArrayList<>();
+
+        for (Telefone telefone : listA)
+        {
+            if (!listB.contains(telefone))
+                result.add(telefone);
+        }
+
+        return result;
+    }
+
+    public void delete(Aluno aluno, Telefone telefone) throws SQLException, ClassNotFoundException
+    {
+        id_telefone("D", aluno, telefone);
     }
 
     private String id_telefone(String modo, Aluno aluno, Telefone telefone) throws SQLException, ClassNotFoundException

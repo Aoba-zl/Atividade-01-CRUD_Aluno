@@ -47,7 +47,7 @@
         </div>
         <div>
           <label for="telefone">Telefone *</label>
-          <input type="text" name="telefone" id="telefone">
+          <input type="number" min="0" max="999999999999" name="telefone" id="telefone">
           <input type="button" class="svg" onclick="adicionar('telefone')" value="Adicionar">
         </div>
         <div id="tabela_container" class="tabela_container">
@@ -77,9 +77,9 @@
         <h3>Matricula</h3>
         <div>
           <label for="pontuacao_vest">Pontuação Vestibular *</label>
-          <input type="number" name="pontuacao_vest" id="pontuacao_vest" value="${matricula.pontuacao_vestibular}" />
+          <input type="number" min="0" name="pontuacao_vest" id="pontuacao_vest" value="${matricula.pontuacao_vestibular}"/>
           <label for="posicao_vest">Posição Vestibular *</label>
-          <input type="number" name="posicao_vest" id="posicao_vest" value="${matricula.posicao_vestibular}" />
+          <input type="number" min="0" name="posicao_vest" id="posicao_vest" value="${matricula.posicao_vestibular}" />
         </div>
         <div>
         </div>
@@ -103,12 +103,23 @@
         <div>
           <label for="ra">RA</label>
           <input type="number" name="ra" disabled value="${matricula.ra}" />
+
+          <c:if test="${not empty matricula.matricula_ativa}">
+            <c:if test="${matricula.matricula_ativa eq true}">
+              <h3>Matricula Ativa</h3>
+            </c:if>
+            <c:if test="${matricula.matricula_ativa ne true}">
+              <h3>Matricula Desativada</h3>
+            </c:if>
+          </c:if>
         </div>
         <div>
           <label for="ano_i">Ano Ingresso</label>
-          <input type="number" name="ano_i" disabled value="${matricula.ano_ingresso}" />
+          <input type="number" name="ano_i" value="${matricula.ano_ingresso}"
+                  <c:if test="${empty aluno.cpf}"> disabled </c:if> />
           <label for="semes_i">Semestre Ingresso</label>
-          <input type="number" name="semes_i" disabled  value="${matricula.semestre_ingresso}"/>
+          <input type="number" name="semes_i" value="${matricula.semestre_ingresso}"
+                  <c:if test="${empty aluno.cpf}"> disabled </c:if>/>
         </div>
         <div>
           <label for="ano_l">Ano Limite</label>
@@ -118,7 +129,7 @@
         </div>
         <div>
           <%-- inputs responsaveis por puxar os dados gerados --%>
-          <input type="hidden" name="ra" id="ra" disabled />
+          <input type="hidden" name="ra" id="ra" value="${matricula.ra}" />
           <input type="hidden" name="ano_i" id="ano_i"/>
           <input type="hidden" name="semes_i" id="semes_i"/>
           <input type="hidden" name="ano_l" id="ano_l"/>
@@ -135,8 +146,21 @@
         <div>
           <input class="esticado" type="submit" value="Cadastrar" name="botao" />
           <input class="esticado" type="submit" value="Alterar" name="botao" />
-          <input class="esticado" type="submit" value="Desativar Matricula" name="botao" />
-          <h1 id="aki"></h1>
+          <input class="esticado" type="submit"  name="botao"
+          <c:if test="${not empty matricula.matricula_ativa}">
+            <c:if test="${matricula.matricula_ativa eq true}">
+                 value="Desativar Matricula"
+            </c:if>
+            <c:if test="${matricula.matricula_ativa ne true}">
+              value="Ativar Matricula"
+            </c:if>
+          </c:if>
+          <c:if test="${empty matricula.matricula_ativa}">
+            value="Desativar Matricula"
+            disabled
+          </c:if>
+
+          />
         </div>
       </main>
     </form>
