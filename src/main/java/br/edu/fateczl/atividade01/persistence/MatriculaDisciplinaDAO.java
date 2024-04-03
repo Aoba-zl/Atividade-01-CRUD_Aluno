@@ -95,7 +95,7 @@ public class MatriculaDisciplinaDAO
             MatriculaDisciplina matriculaDisciplina = new MatriculaDisciplina();
             DisciplinaDAO discDao = new DisciplinaDAO(gdao);
             disciplina.setCodigo(rs.getInt("codigo"));
-            disciplina = discDao.buscarDisciplina(disciplina);
+            disciplina = discDao.find(disciplina);
             matriculaDisciplina.setSituacao(rs.getString("situacao"));
             matriculaDisciplina.setDisciplina(disciplina);
 

@@ -1,9 +1,7 @@
 package br.edu.fateczl.atividade01.controller;
 
-import br.edu.fateczl.atividade01.model.Aluno;
-import br.edu.fateczl.atividade01.model.Curso;
-import br.edu.fateczl.atividade01.model.Matricula;
-import br.edu.fateczl.atividade01.model.Telefone;
+import br.edu.fateczl.atividade01.model.*;
+import br.edu.fateczl.atividade01.persistence.*;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -30,8 +28,28 @@ public class CRUD_AlunoServlet extends HttpServlet {
             throws ServletException, IOException
     {
         //TODO: Buscar cursos
-        RequestDispatcher rd = request.getRequestDispatcher("secretaria_manter_aluno.jsp");
-        rd.forward(request, response);
+        String erro = "";
+        String saida = "";
+
+        List<Curso> cursos = new ArrayList<>();
+
+        try
+        {
+            cursos = buscarCursos();
+        }
+        catch (SQLException | ClassNotFoundException e)
+        {
+            erro = e.getMessage();
+        }
+        finally
+        {
+            request.setAttribute("cursos", cursos);
+            request.setAttribute("saida", saida);
+            request.setAttribute("erro", erro);
+
+            RequestDispatcher rd = request.getRequestDispatcher("secretaria_manter_aluno.jsp");
+            rd.forward(request, response);
+        }
     }
 
     @Override
@@ -51,52 +69,49 @@ public class CRUD_AlunoServlet extends HttpServlet {
         String posicao_vest = request.getParameter("posicao_vest");
         String cod_curso = request.getParameter("curso");
         String turno = request.getParameter("turno");
-        /*String ra = request.getParameter("ra");
-        String ano_i = request.getParameter("ano_i");
-        String semes_i = request.getParameter("semes_i");
-        String ano_l = request.getParameter("ano_l");
-        String semes_l = request.getParameter("semes_l");*/
-
-        String telefone = request.getParameter("telefone");
 
         String erro = "";
         String saida = "";
 
         Matricula matricula = new Matricula();
-        List<Telefone> telefones = new ArrayList<>();
+        List<Telefone> telefones = getTelefones(request.getParameterValues("telefones"));
+        List<Curso> cursos = new ArrayList<>();
         Aluno aluno = new Aluno();
 
         try
         {
+            cursos = buscarCursos();
             if (cmd.equalsIgnoreCase("Buscar"))
             {
                 aluno.setCpf(cpf);
                 aluno = buscarAluno(aluno);
-                matricula = buscarMatricula(aluno);
-                System.out.println();
+                saida = "Nenhum aluno encontrado!";
+                if (aluno.getCpf() != null)
+                {
+                    matricula.setAluno(aluno);
+                    matricula = buscarMatricula(matricula);
+                    saida = "Nenhum encontrado!";
+                }
+                telefones = aluno.getTelefones();
             }
-                System.out.println();
             if (cmd.equalsIgnoreCase("Cadastrar") || cmd.equalsIgnoreCase("Alterar"))
             {
-                aluno.setCpf(cpf);
-                aluno.setNome(nome);
-                aluno.setNome_social(nome_soc);
-                aluno.setDt_nasc(Date.valueOf(dt_nasc));
-                aluno.setEmail_pessoal(email_p);
-                aluno.setEmail_corporativo(email_c);
-                aluno.setDt_conclusao_seg_grau(Date.valueOf(dt_seg_grau));
-                aluno.setInstituicao_seg_grau(inst_seg_grau);
-                aluno.setTelefones(telefones);
-
+                MatriculaAlunoBuilder builder = new MatriculaAlunoBuilder();
                 Curso curso = new Curso();
                 curso.setCodigo(Integer.parseInt(cod_curso));
                 curso.setTurno(turno);
-                matricula.setAluno(aluno);
-                matricula.setCurso(curso);
 
-                matricula.setPontuacao_vestibular(Integer.parseInt(pontuacao_vest));
-                matricula.setPosicao_vestibular(Integer.parseInt(posicao_vest));
-                System.out.println();
+                builder.addCpf(cpf)
+                .addCpf(cpf)
+                .addNome(nome).addNome_social(nome_soc).addDt_nasc(Date.valueOf(dt_nasc))
+                .addEmail_pessoal(email_p).addEmail_corporativo(email_c)
+                .addDt_conclusao_seg_grau(Date.valueOf(dt_seg_grau))
+                .addInstituicao_seg_grau(inst_seg_grau).addTelefones(telefones).addAluno(aluno).addCurso(curso)
+                .addPontuacao_vestibular(Integer.parseInt(pontuacao_vest))
+                .addPosicao_vestibular(Integer.parseInt(posicao_vest));
+
+                aluno = builder.getAluno();
+                matricula = builder.getMatricula();
             }
             if (cmd.equalsIgnoreCase("Cadastrar"))
             {
@@ -123,12 +138,13 @@ public class CRUD_AlunoServlet extends HttpServlet {
                 matricula = new Matricula();
             }
         }
-        catch (SQLException | ClassNotFoundException e)
+        catch (SQLException | ClassNotFoundException | IllegalArgumentException e)
         {
             erro = e.getMessage();
         }
         finally
         {
+            request.setAttribute("cursos", cursos);
             request.setAttribute("telefones", telefones);
             request.setAttribute("aluno", aluno);
             request.setAttribute("matricula", matricula);
@@ -141,18 +157,34 @@ public class CRUD_AlunoServlet extends HttpServlet {
         }
     }
 
+    private List<Telefone> getTelefones(String[] telefones_str) {
+        List<Telefone> telefones = new ArrayList<>();
+        if (telefones_str != null)
+        {
+            for (String telefone_str : telefones_str)
+            {
+                Telefone telefone = new Telefone(telefone_str);
+                telefones.add(telefone);
+            }
+        }
+        return telefones;
+    }
+
     private Aluno buscarAluno(Aluno aluno)
             throws SQLException, ClassNotFoundException
     {
-        //TODO: buscarAluno
-        return null;
+        GenericDAO gdao = new GenericDAO();
+        ICRUD<Aluno> alunoDAO = new AlunoDAO(gdao);
+        return alunoDAO.find(aluno);
     }
 
-    private Matricula buscarMatricula(Aluno aluno)
+    private Matricula buscarMatricula(Matricula matricula)
             throws SQLException, ClassNotFoundException
     {
         //TODO: buscarMatricula
-        return null;
+        GenericDAO gdao = new GenericDAO();
+        MatriculaDAO matriculaDAO = new MatriculaDAO(gdao);
+        return matriculaDAO.find(matricula);
     }
 
     private String cadastarMatricula(Aluno aluno, Matricula matricula)
@@ -170,7 +202,7 @@ public class CRUD_AlunoServlet extends HttpServlet {
     }
 
     private String desativarMatricula(Aluno aluno, Matricula matricula)
-            throws SQLException, ClassNotFoundException
+            throws SQLException, ClassNotFoundException, NullPointerException
     {
         //TODO: desativarMatricula
         return null;
@@ -181,5 +213,13 @@ public class CRUD_AlunoServlet extends HttpServlet {
     {
         //TODO: ativarMatricula
         return null;
+    }
+
+    private List<Curso> buscarCursos()
+            throws SQLException, ClassNotFoundException
+    {
+        GenericDAO gdao = new GenericDAO();
+        CursoDAO cursoDAO = new CursoDAO(gdao);
+        return cursoDAO.list();
     }
 }

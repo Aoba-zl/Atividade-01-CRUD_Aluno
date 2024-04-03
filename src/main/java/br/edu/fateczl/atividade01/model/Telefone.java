@@ -12,5 +12,5 @@ import lombok.Setter;
 
 public class Telefone
 {
-    int numero;
+    String numero;
 }

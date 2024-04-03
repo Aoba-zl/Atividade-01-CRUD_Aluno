@@ -6,8 +6,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
-public class DisciplinaDAO
+public class DisciplinaDAO implements ICRUD<Disciplina>
 {
     GenericDAO gdao;
 
@@ -15,7 +16,22 @@ public class DisciplinaDAO
         this.gdao = gdao;
     }
 
-    public Disciplina buscarDisciplina(Disciplina disciplina) throws SQLException, ClassNotFoundException
+    @Override
+    public String insert(Disciplina disciplina) throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    @Override
+    public String update(Disciplina disciplina) throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    @Override
+    public String delete(Disciplina disciplina) throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    public Disciplina find(Disciplina disciplina) throws SQLException, ClassNotFoundException
     {
         Connection con = gdao.getConnection();
         String query = "SELECT codigo, nome, horas_semanais FROM disciplina WHERE codigo=?";
@@ -30,6 +46,11 @@ public class DisciplinaDAO
         }
 
         return disciplina;
+    }
+
+    @Override
+    public List<Disciplina> list() throws SQLException, ClassNotFoundException {
+        return null;
     }
 
 }

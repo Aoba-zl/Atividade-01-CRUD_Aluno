@@ -17,6 +17,7 @@ public class Matricula
     String ra;
     int pontuacao_vestibular, posicao_vestibular,
     ano_ingresso, semestre_ingresso, ano_limite, semestre_limite;
+    boolean matricula_ativa;
     Aluno aluno;
     Curso curso;
     List<MatriculaDisciplina> matriculaDisciplinas;

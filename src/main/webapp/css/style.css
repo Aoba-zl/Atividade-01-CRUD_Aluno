@@ -139,8 +139,30 @@ textarea {
   box-sizing: border-box;
 }
 
-input[type="submit"]:disabled, input[type="submit"]:hover:disabled{
-  background-color: gray;
+.popup {
+  display: none; /* Inicialmente oculto */
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: wheat;
+  border: 1px solid #ccc;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.svg {
+  background-image: url(https://www.svgrepo.com/show/510786/add-plus-circle.svg);
+  width: 10%;
+  height: 10%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+}
+
+input:disabled, input:hover:disabled{
+  background-color: rgb(189, 189, 189);
   cursor: not-allowed;
 }
 

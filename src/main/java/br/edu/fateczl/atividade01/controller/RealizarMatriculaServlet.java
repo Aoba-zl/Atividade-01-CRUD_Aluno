@@ -13,11 +13,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @WebServlet("/realizar_matricula")
@@ -219,7 +216,7 @@ public class RealizarMatriculaServlet extends HttpServlet
     {
         GenericDAO gdao = new GenericDAO();
         MatriculaDAO matriculaDAO = new MatriculaDAO(gdao);
-        return matriculaDAO.buscarMatricula(matricula);
+        return matriculaDAO.find(matricula);
     }
 
     private String realizarMatricula(Matricula matricula, String codDisc, String codHorario, String diaSemana)
@@ -269,7 +266,7 @@ public class RealizarMatriculaServlet extends HttpServlet
         DisciplinaDAO disciplinaDAO = new DisciplinaDAO(gdao);
         Disciplina disciplina = new Disciplina();
         disciplina.setCodigo(cod_disciplina);
-        return disciplinaDAO.buscarDisciplina(disciplina);
+        return disciplinaDAO.find(disciplina);
     }
 
     private String get_dia_semana(int dia_numerico)
