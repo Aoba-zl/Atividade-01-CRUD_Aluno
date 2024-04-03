@@ -5,7 +5,7 @@ import br.edu.fateczl.atividade01.model.Matricula;
 
 import java.sql.*;
 
-public class MatriculaDAO implements I_MatriculaDAO<Matricula>
+public class MatriculaDAO implements I_MatriculaDAO
 {
     GenericDAO gdao;
 
