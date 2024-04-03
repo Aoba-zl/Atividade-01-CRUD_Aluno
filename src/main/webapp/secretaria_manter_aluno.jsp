@@ -47,13 +47,13 @@
         </div>
         <div>
           <label for="email_p">E-mail Pessoal *</label>
-          <input type="text" name="email_p" id="email_p" value='<c:out value="${aluno.email_pessoal}"/>'
+          <input type="email" name="email_p" id="email_p" value='<c:out value="${aluno.email_pessoal}"/>'
                   <c:if test="${not empty matricula.ra}">
                     <c:if test="${matricula.matricula_ativa ne true}">disabled</c:if>
                   </c:if>
           />
           <label for="email_c">E-mail Corporativo *</label>
-          <input type="text" name="email_c" id="email_c" value='<c:out value="${aluno.email_corporativo}"/>'
+          <input type="email" name="email_c" id="email_c" value='<c:out value="${aluno.email_corporativo}"/>'
                   <c:if test="${not empty matricula.ra}">
                     <c:if test="${matricula.matricula_ativa ne true}">disabled</c:if>
                   </c:if>
@@ -120,7 +120,7 @@
                   </c:if>
           />
           <label for="posicao_vest">Posição Vestibular *</label>
-          <input type="number" min="0" name="posicao_vest" id="posicao_vest" value="${matricula.posicao_vestibular}"
+          <input type="number" min="1" name="posicao_vest" id="posicao_vest" value="${matricula.posicao_vestibular}"
                   <c:if test="${not empty matricula.ra}">
                     <c:if test="${matricula.matricula_ativa ne true}">disabled</c:if>
                   </c:if>
@@ -168,14 +168,14 @@
         </div>
         <div>
           <label for="ano_i">Ano Ingresso</label>
-          <input type="number" name="ano_i" value="${matricula.ano_ingresso}"
+          <input type="number" min="1800" name="ano_i" value="${matricula.ano_ingresso}"
                   <c:if test="${empty aluno.cpf}"> disabled </c:if>
                   <c:if test="${not empty matricula.ra}">
                     <c:if test="${matricula.matricula_ativa ne true}">disabled</c:if>
                   </c:if>
           />
           <label for="semes_i">Semestre Ingresso</label>
-          <input type="number" name="semes_i" value="${matricula.semestre_ingresso}"
+          <input type="number" min="1" max="2" name="semes_i" value="${matricula.semestre_ingresso}"
                   <c:if test="${empty aluno.cpf}"> disabled </c:if>
                   <c:if test="${not empty matricula.ra}">
                     <c:if test="${matricula.matricula_ativa ne true}">disabled</c:if>
@@ -277,7 +277,7 @@
 
       var novoId = inp_telefone.value
 
-      if (!tabela.contains(document.getElementById(novoId))){
+      if ( novoId.length === 12 && !tabela.contains(document.getElementById(novoId))){
         var novaLinha = tabela.insertRow(1)
         var col1 = novaLinha.insertCell(0)
         var col2 = novaLinha.insertCell(1)
@@ -295,6 +295,9 @@
 
         inp_telefone.value = ''
         msg_erro.innerText = ''
+      }
+      else if (novoId.length !== 12) {
+        msg_erro.innerText = 'Telefone tem que ter 12 digitos'
       }
       else {
         msg_erro.innerText = 'Telefone já Adicionado'

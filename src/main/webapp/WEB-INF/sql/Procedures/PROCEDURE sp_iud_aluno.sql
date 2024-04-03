@@ -24,6 +24,8 @@ BEGIN
         SELECT @aluno_existe=COUNT(cpf) FROM aluno WHERE cpf = @cpf
         IF ( (@modo = 'U' OR @modo = 'D') AND (@aluno_existe <= 0) )
         BEGIN; SET @ok = 0; RAISERROR ('CPF nao cadastrado', 16, 1); END
+        IF ( (@modo = 'I') AND (@aluno_existe > 0) )
+        BEGIN; SET @ok = 0; RAISERROR ('CPF ja cadastrado. Tente outro ou alterar', 16, 1); END
 
         IF ( (@modo = 'U' OR @modo = 'I') AND (@nome IS NULL OR @data_nasc IS NULL OR @email_pessoal IS NULL OR
                 @email_corp IS NULL OR @data_conclusao_seg_grau IS NULL OR @instituicao_seg_grau IS NULL) )
@@ -36,7 +38,7 @@ BEGIN
         BEGIN; SET @ok = 0; RAISERROR ('CPF invalido', 16, 1); END
 
         EXEC sp_alunovalidaridade @data_nasc, @idade_valida OUTPUT
-        IF ( @modo = 'I' AND @idade_valida <= 0 )
+        IF ( (@modo = 'I' OR @modo = 'U') AND @idade_valida <= 0 )
         BEGIN; SET @ok = 0; RAISERROR ('Idade invalida', 16, 1); END
 
         IF (@ok = 1)

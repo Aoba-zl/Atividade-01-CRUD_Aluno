@@ -167,6 +167,9 @@ public class CRUD_AlunoServlet extends HttpServlet {
         catch (SQLException | ClassNotFoundException | IllegalArgumentException e)
         {
             erro = e.getMessage();
+            aluno = new Aluno();
+            matricula = new Matricula();
+            telefones = new ArrayList<>();
         }
         finally
         {

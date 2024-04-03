@@ -51,40 +51,50 @@ BEGIN
             BEGIN
                 IF (@modo = 'U')
                 BEGIN
-                    EXEC sp_alunoanolimite
-                         @ano_limite_graduacao OUTPUT ,
-                         @semestre_limite_graduacao OUTPUT
-                    UPDATE matricula
-                    SET cpf_aluno = @cpf_aluno, cod_curso = @cod_curso,
-                        pontuacao_vestibular = @pontuacao_vestibular,
-                        posicao_vestibular = @posicao_vestibular,
-                        ano_ingresso = @ano_ingresso, semestre_ingresso = @semestre_ingresso,
-                        ano_limite_graduacao = @ano_limite_graduacao,
-                        semestre_limite_graduacao = @semestre_limite_graduacao
-                    WHERE ra = @ra
-                    SET @saida = 'Matricula atualizada com sucesso'
+                    BEGIN TRY
+                        EXEC sp_alunoanolimite
+                             @ano_limite_graduacao OUTPUT ,
+                             @semestre_limite_graduacao OUTPUT
+                        UPDATE matricula
+                        SET cpf_aluno = @cpf_aluno, cod_curso = @cod_curso,
+                            pontuacao_vestibular = @pontuacao_vestibular,
+                            posicao_vestibular = @posicao_vestibular,
+                            ano_ingresso = @ano_ingresso, semestre_ingresso = @semestre_ingresso,
+                            ano_limite_graduacao = @ano_limite_graduacao,
+                            semestre_limite_graduacao = @semestre_limite_graduacao
+                        WHERE ra = @ra
+                        SET @saida = 'Matricula atualizada com sucesso'
+                    END TRY
+                    BEGIN CATCH
+                        RAISERROR ('Erro ao alterar matricla', 16, 1)
+                    END CATCH
                 END
                 ELSE
                 BEGIN
                     IF (@modo = 'I')
                     BEGIN
-                        DECLARE @novo_ra CHAR(9)
-                        SET @ano_ingresso = YEAR(GETDATE())
-                        SET @semestre_ingresso = (((MONTH(GETDATE()) - 1) / 6) + 1)
-                        EXEC sp_alunogerarra @novo_ra OUTPUT
-                        EXEC sp_alunoanolimite
-                             @ano_limite_graduacao OUTPUT ,
-                             @semestre_limite_graduacao OUTPUT
+                        BEGIN TRY
+                            DECLARE @novo_ra CHAR(9)
+                            SET @ano_ingresso = YEAR(GETDATE())
+                            SET @semestre_ingresso = (((MONTH(GETDATE()) - 1) / 6) + 1)
+                            EXEC sp_alunogerarra @novo_ra OUTPUT
+                            EXEC sp_alunoanolimite
+                                 @ano_limite_graduacao OUTPUT ,
+                                 @semestre_limite_graduacao OUTPUT
 
-                        INSERT INTO matricula (ra, cpf_aluno, cod_curso, pontuacao_vestibular,
-                                               posicao_vestibular, ano_ingresso, semestre_ingresso,
-                                               ano_limite_graduacao, semestre_limite_graduacao, matricula_ativa)
-                        VALUES
-                        (@novo_ra, @cpf_aluno, @cod_curso, @pontuacao_vestibular,
-                        @posicao_vestibular, @ano_ingresso, @semestre_ingresso,
-                        @ano_limite_graduacao, @semestre_limite_graduacao, 1)
+                            INSERT INTO matricula (ra, cpf_aluno, cod_curso, pontuacao_vestibular,
+                                                   posicao_vestibular, ano_ingresso, semestre_ingresso,
+                                                   ano_limite_graduacao, semestre_limite_graduacao, matricula_ativa)
+                            VALUES
+                            (@novo_ra, @cpf_aluno, @cod_curso, @pontuacao_vestibular,
+                            @posicao_vestibular, @ano_ingresso, @semestre_ingresso,
+                            @ano_limite_graduacao, @semestre_limite_graduacao, 1)
 
-                        SET @saida = 'Matricula cadastrada com sucesso'
+                            SET @saida = 'Matricula cadastrada com sucesso'
+                        END TRY
+                        BEGIN CATCH
+                            RAISERROR ('Erro ao cadastrar matricla', 16, 1)
+                        END CATCH
                     END
                 END
             END

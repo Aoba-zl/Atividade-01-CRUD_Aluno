@@ -111,6 +111,8 @@ public class MatriculaAlunoBuilder
     {
         if (posicao_vestibular < 0)
             throw new IllegalArgumentException("Posição do Vestibular tem que ser preenchida!");
+        if (posicao_vestibular < 1)
+            throw new IllegalArgumentException("Posição do Vestibular inválida!");
         this.matricula.setPosicao_vestibular(posicao_vestibular);
         return this;
     }
@@ -119,6 +121,8 @@ public class MatriculaAlunoBuilder
     {
         if (ano_ingresso < 0)
             throw new IllegalArgumentException("Ano de ingresso tem que ser preenchido!");
+        if (ano_ingresso < 1800)
+            throw new IllegalArgumentException("Ano de ingresso inválido!");
         this.matricula.setAno_ingresso(ano_ingresso);
         return this;
     }
@@ -127,6 +131,8 @@ public class MatriculaAlunoBuilder
     {
         if (semestre_ingresso < 0)
             throw new IllegalArgumentException("Semestre de ingresso tem que ser preenchido!");
+        if (semestre_ingresso != 1 && semestre_ingresso != 2)
+            throw new IllegalArgumentException("Semestre de ingresso inválido!");
         this.matricula.setSemestre_ingresso(semestre_ingresso);
         return this;
     }
@@ -135,6 +141,8 @@ public class MatriculaAlunoBuilder
     {
         if (ano_limite < 0)
             throw new IllegalArgumentException("Ano Limite tem que ser preenchido!");
+        if (ano_limite < 1800)
+            throw new IllegalArgumentException("Ano Limite inválido!");
         this.matricula.setAno_limite(ano_limite);
         return this;
     }
@@ -143,6 +151,8 @@ public class MatriculaAlunoBuilder
     {
         if (semestre_limite < 0)
             throw new IllegalArgumentException("Semestre Limite tem que ser preenchido!");
+        if (semestre_limite != 1 && semestre_limite != 2)
+            throw new IllegalArgumentException("Semestre Limite inválido!");
         this.matricula.setSemestre_limite(semestre_limite);
         return this;
     }
