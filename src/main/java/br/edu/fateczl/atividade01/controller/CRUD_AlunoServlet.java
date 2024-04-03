@@ -28,7 +28,6 @@ public class CRUD_AlunoServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        //TODO: Buscar cursos
         String erro = "";
         String saida = "";
 
@@ -140,15 +139,29 @@ public class CRUD_AlunoServlet extends HttpServlet {
             }
             if (cmd.equalsIgnoreCase("Desativar Matricula"))
             {
+                matricula.setRa(ra);
+                matricula.setAluno(aluno);
+                matricula.setCurso(new Curso());
                 saida = desativarMatricula(matricula);
                 aluno = new Aluno();
                 matricula = new Matricula();
+                telefones = new ArrayList<>();
             }
             if (cmd.equalsIgnoreCase("Ativar Matricula"))
             {
+                matricula.setRa(ra);
+                matricula.setAluno(aluno);
+                matricula.setCurso(new Curso());
                 saida = ativarMatricula(matricula);
                 aluno = new Aluno();
                 matricula = new Matricula();
+                telefones = new ArrayList<>();
+            }
+            if (cmd.equalsIgnoreCase("Novo Cadastro"))
+            {
+                aluno = new Aluno();
+                matricula = new Matricula();
+                telefones = new ArrayList<>();
             }
         }
         catch (SQLException | ClassNotFoundException | IllegalArgumentException e)

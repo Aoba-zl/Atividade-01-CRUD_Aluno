@@ -27,28 +27,64 @@
         </div>
         <div>
           <label for="nome">Nome *</label>
-          <input type="text" name="nome" id="nome" value='<c:out value="${aluno.nome}"/>' />
+          <input type="text" name="nome" id="nome" value='<c:out value="${aluno.nome}"/>'
+                  <c:if test="${not empty matricula.ra}">
+                    <c:if test="${matricula.matricula_ativa ne true}">disabled</c:if>
+                  </c:if>
+          />
           <label for="nome_soc">Nome Social</label>
-          <input type="text" name="nome_soc" id="nome_soc" value='<c:out value="${aluno.nome_social}"/>' />
+          <input type="text" name="nome_soc" id="nome_soc" value='<c:out value="${aluno.nome_social}"/>'
+                  <c:if test="${not empty matricula.ra}">
+                    <c:if test="${matricula.matricula_ativa ne true}">disabled</c:if>
+                  </c:if>
+          />
           <label for="dt_nasc">Data Nascimento *</label>
-          <input type="date" name="dt_nasc" id="dt_nasc" value='<c:out value="${aluno.dt_nasc}"/>' />
+          <input type="date" name="dt_nasc" id="dt_nasc" value='<c:out value="${aluno.dt_nasc}"/>'
+                  <c:if test="${not empty matricula.ra}">
+                    <c:if test="${matricula.matricula_ativa ne true}">disabled</c:if>
+                  </c:if>
+          />
         </div>
         <div>
           <label for="email_p">E-mail Pessoal *</label>
-          <input type="text" name="email_p" id="email_p" value='<c:out value="${aluno.email_pessoal}"/>' />
+          <input type="text" name="email_p" id="email_p" value='<c:out value="${aluno.email_pessoal}"/>'
+                  <c:if test="${not empty matricula.ra}">
+                    <c:if test="${matricula.matricula_ativa ne true}">disabled</c:if>
+                  </c:if>
+          />
           <label for="email_c">E-mail Corporativo *</label>
-          <input type="text" name="email_c" id="email_c" value='<c:out value="${aluno.email_corporativo}"/>' />
+          <input type="text" name="email_c" id="email_c" value='<c:out value="${aluno.email_corporativo}"/>'
+                  <c:if test="${not empty matricula.ra}">
+                    <c:if test="${matricula.matricula_ativa ne true}">disabled</c:if>
+                  </c:if>
+          />
         </div>
         <div>
           <label for="dt_seg_grau">Data de conclusão 2º grau *</label>
-          <input type="date" name="dt_seg_grau" id="dt_seg_grau" value='<c:out value="${aluno.dt_conclusao_seg_grau}"/>' />
+          <input type="date" name="dt_seg_grau" id="dt_seg_grau" value='<c:out value="${aluno.dt_conclusao_seg_grau}"/>'
+                  <c:if test="${not empty matricula.ra}">
+                    <c:if test="${matricula.matricula_ativa ne true}">disabled</c:if>
+                  </c:if>
+          />
           <label for="inst_seg_grau">Instituição de conclusão 2º grau *</label>
-          <input type="text" name="inst_seg_grau" id="inst_seg_grau" value='<c:out value="${aluno.instituicao_seg_grau}"/>' />
+          <input type="text" name="inst_seg_grau" id="inst_seg_grau" value='<c:out value="${aluno.instituicao_seg_grau}"/>'
+                  <c:if test="${not empty matricula.ra}">
+                    <c:if test="${matricula.matricula_ativa ne true}">disabled</c:if>
+                  </c:if>
+          />
         </div>
         <div>
           <label for="telefone">Telefone *</label>
-          <input type="number" min="0" max="999999999999" name="telefone" id="telefone">
-          <input type="button" class="svg" onclick="adicionar('telefone')" value="Adicionar">
+          <input type="number" min="0" max="999999999999" name="telefone" id="telefone"
+          <c:if test="${not empty matricula.ra}">
+                 <c:if test="${matricula.matricula_ativa ne true}">disabled</c:if>
+          </c:if>
+          >
+          <input type="button" class="svg" onclick="adicionar('telefone')" value="Adicionar"
+          <c:if test="${not empty matricula.ra}">
+                 <c:if test="${matricula.matricula_ativa ne true}">disabled</c:if>
+          </c:if>
+          >
         </div>
         <div id="tabela_container" class="tabela_container">
           <table id="tabela_telefones">
@@ -77,15 +113,27 @@
         <h3>Matricula</h3>
         <div>
           <label for="pontuacao_vest">Pontuação Vestibular *</label>
-          <input type="number" min="0" name="pontuacao_vest" id="pontuacao_vest" value="${matricula.pontuacao_vestibular}"/>
+          <input type="number" min="0" name="pontuacao_vest" id="pontuacao_vest" value="${matricula.pontuacao_vestibular}"
+                  <c:if test="${not empty matricula.ra}">
+                    <c:if test="${matricula.matricula_ativa ne true}">disabled</c:if>
+                  </c:if>
+          />
           <label for="posicao_vest">Posição Vestibular *</label>
-          <input type="number" min="0" name="posicao_vest" id="posicao_vest" value="${matricula.posicao_vestibular}" />
+          <input type="number" min="0" name="posicao_vest" id="posicao_vest" value="${matricula.posicao_vestibular}"
+                  <c:if test="${not empty matricula.ra}">
+                    <c:if test="${matricula.matricula_ativa ne true}">disabled</c:if>
+                  </c:if>
+          />
         </div>
         <div>
         </div>
         <div>
           <label for="curso">Curso</label>
-          <select name="curso" id="curso">
+          <select name="curso" id="curso"
+                  <c:if test="${not empty matricula.ra}">
+                    <c:if test="${matricula.matricula_ativa ne true}">disabled</c:if>
+                  </c:if>
+          >
             <c:forEach items="${cursos}" var="curso">
               <c:if test="${matricula.curso.codigo eq curso.codigo}">
                 <option selected="selected" value="${curso.codigo}"><c:out value="${curso.sigla} - ${curso.nome}"/></option>
@@ -96,7 +144,11 @@
             </c:forEach>
           </select>
           <label for="turno">Turno</label>
-          <select name="turno" id="turno">
+          <select name="turno" id="turno"
+                  <c:if test="${not empty matricula.ra}">
+                    <c:if test="${matricula.matricula_ativa ne true}">disabled</c:if>
+                  </c:if>
+          >
             <option value="0">Tarde</option>
           </select>
         </div>
@@ -104,7 +156,7 @@
           <label for="ra">RA</label>
           <input type="number" name="ra" disabled value="${matricula.ra}" />
 
-          <c:if test="${not empty matricula.matricula_ativa}">
+          <c:if test="${not empty matricula.ra}">
             <c:if test="${matricula.matricula_ativa eq true}">
               <h3>Matricula Ativa</h3>
             </c:if>
@@ -116,10 +168,18 @@
         <div>
           <label for="ano_i">Ano Ingresso</label>
           <input type="number" name="ano_i" value="${matricula.ano_ingresso}"
-                  <c:if test="${empty aluno.cpf}"> disabled </c:if> />
+                  <c:if test="${empty aluno.cpf}"> disabled </c:if>
+                  <c:if test="${not empty matricula.ra}">
+                    <c:if test="${matricula.matricula_ativa ne true}">disabled</c:if>
+                  </c:if>
+          />
           <label for="semes_i">Semestre Ingresso</label>
           <input type="number" name="semes_i" value="${matricula.semestre_ingresso}"
-                  <c:if test="${empty aluno.cpf}"> disabled </c:if>/>
+                  <c:if test="${empty aluno.cpf}"> disabled </c:if>
+                  <c:if test="${not empty matricula.ra}">
+                    <c:if test="${matricula.matricula_ativa ne true}">disabled</c:if>
+                  </c:if>
+          />
         </div>
         <div>
           <label for="ano_l">Ano Limite</label>
@@ -144,10 +204,22 @@
       </main>
       <main>
         <div>
-          <input class="esticado" type="submit" value="Cadastrar" name="botao" />
-          <input class="esticado" type="submit" value="Alterar" name="botao" />
+          <input class="esticado" type="submit" name="botao"
+                  <c:if test="${not empty matricula.ra}">
+                    value="Novo Cadastro"
+                  </c:if>
+                  <c:if test="${empty matricula.ra}">
+                    value="Cadastrar"
+                  </c:if>
+          />
+          <input class="esticado" type="submit" value="Alterar" name="botao"
+                  <c:if test="${empty aluno.cpf}"> disabled </c:if>
+                  <c:if test="${not empty matricula.ra}">
+                    <c:if test="${matricula.matricula_ativa ne true}">disabled</c:if>
+                  </c:if>
+          />
           <input class="esticado" type="submit"  name="botao"
-          <c:if test="${not empty matricula.matricula_ativa}">
+          <c:if test="${not empty matricula.ra}">
             <c:if test="${matricula.matricula_ativa eq true}">
                  value="Desativar Matricula"
             </c:if>
@@ -155,11 +227,10 @@
               value="Ativar Matricula"
             </c:if>
           </c:if>
-          <c:if test="${empty matricula.matricula_ativa}">
+          <c:if test="${empty matricula.ra}">
             value="Desativar Matricula"
             disabled
           </c:if>
-
           />
         </div>
       </main>
