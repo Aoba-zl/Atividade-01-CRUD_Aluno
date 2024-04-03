@@ -86,6 +86,7 @@
           </c:if>
           >
         </div>
+        <h4 class="erro" id="msg_telefone"></h4>
         <div id="tabela_container" class="tabela_container">
           <table id="tabela_telefones">
             <thead>
@@ -270,23 +271,35 @@
     function adicionar(id) {
       var inp_telefone = document.getElementById(id)
       var div_inputs = document.getElementById('tabela_container')
+      var msg_erro = document.getElementById('msg_telefone')
 
       var tabela = document.getElementById('tabela_telefones')
-      var novaLinha = tabela.insertRow(1)
-      var col1 = novaLinha.insertCell(0)
-      var col2 = novaLinha.insertCell(1)
 
-      novaLinha.id = inp_telefone.value
-      col1.innerText = inp_telefone.value
-      col2.innerHTML = '<a class="acao" onclick="excluir(\'' + inp_telefone.value + '\')" >Excluir</a>'
+      var novoId = inp_telefone.value
 
-      <%-- <input id="i_${tel.numero}" type="hidden" name="telefones" value='<c:out value="${tel.numero}"/>'>  --%>
-      var novo_input = document.createElement('input')
-      novo_input.id = 'i_' + inp_telefone.value
-      novo_input.type = 'hidden'
-      novo_input.name = 'telefones'
-      novo_input.value = inp_telefone.value
-      div_inputs.appendChild(novo_input)
+      if (!tabela.contains(document.getElementById(novoId))){
+        var novaLinha = tabela.insertRow(1)
+        var col1 = novaLinha.insertCell(0)
+        var col2 = novaLinha.insertCell(1)
+
+        novaLinha.id = novoId
+        col1.innerText = novoId
+        col2.innerHTML = '<a class="acao" onclick="excluir(\'' + novoId + '\')" >Excluir</a>'
+
+        var novo_input = document.createElement('input')
+        novo_input.id = 'i_' + novoId
+        novo_input.type = 'hidden'
+        novo_input.name = 'telefones'
+        novo_input.value = novoId
+        div_inputs.appendChild(novo_input)
+
+        inp_telefone.value = ''
+        msg_erro.innerText = ''
+      }
+      else {
+        msg_erro.innerText = 'Telefone já Adicionado'
+      }
+
     }
 
   </script>
