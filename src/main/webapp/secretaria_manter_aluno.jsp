@@ -80,7 +80,7 @@
                  <c:if test="${matricula.matricula_ativa ne true}">disabled</c:if>
           </c:if>
           >
-          <input type="button" class="svg" onclick="adicionar('telefone')" value="Adicionar"
+          <input type="button" onclick="adicionar('telefone')" value="Adicionar"
           <c:if test="${not empty matricula.ra}">
                  <c:if test="${matricula.matricula_ativa ne true}">disabled</c:if>
           </c:if>
