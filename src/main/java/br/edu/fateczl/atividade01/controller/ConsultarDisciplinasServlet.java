@@ -44,7 +44,7 @@ public class ConsultarDisciplinasServlet extends HttpServlet {
         } catch (SQLException | ClassNotFoundException e){
             erro = "Erro em consultar disciplinas";
         } finally {
-            req.setAttribute("listaDiciplinas", listaDisciplinas);
+            req.setAttribute("listaDisciplinas", listaDisciplinas);
 
             if (listaDisciplinas.isEmpty() && erro.isEmpty()){
                 erro = "O Aluno não possui disciplinas matriculadas";
