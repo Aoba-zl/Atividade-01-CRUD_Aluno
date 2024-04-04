@@ -11,11 +11,11 @@ as
     set @mes = month(getdate())
     if (@mes > 6)
     begin
-        set @semestre = '2'
+        set @semestre = '1'
     end
     else
     begin
-        set @semestre = '1'
+        set @semestre = '2'
     end
     set @datalimite = cast(@ano as int) + 5
     set @saidaAno = cast(@datalimite as varchar(4))
