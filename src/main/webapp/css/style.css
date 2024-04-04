@@ -161,11 +161,6 @@ textarea {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-input:disabled, input:hover:disabled{
-  background-color: rgb(189, 189, 189);
-  cursor: not-allowed;
-}
-
 input[type="submit"],
 .btn,
 input[type="button"]{
@@ -187,6 +182,11 @@ input[type="button"]:hover{
 
 .esticado, .btn{
   width: 100%;
+}
+
+input:disabled, input:hover:disabled{
+  background-color: rgb(189, 189, 189);
+  cursor: not-allowed;
 }
 
 .acao {
