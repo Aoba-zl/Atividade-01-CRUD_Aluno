@@ -12,8 +12,8 @@ import lombok.Setter;
 
 public class MatriculaDisciplina
 {
-    int id, ano, semestre, dia_semana;
-    Horario horario;
-    Disciplina disciplina;
-    String situacao;
+    private int id, ano, semestre, dia_semana;
+    private Horario horario;
+    private Disciplina disciplina;
+    private String situacao;
 }

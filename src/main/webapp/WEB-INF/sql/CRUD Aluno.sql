@@ -81,8 +81,9 @@ CREATE TABLE conteudo
 
 CREATE TABLE horario
 (
-    id              CHAR(5)     NOT NULL,
+    id CHAR(5) NOT NULL,
     horario_inicio TIME NOT NULL,
+    horario_fim TIME NOT NULL,
     num_aulas    INT  NOT NULL,
     turno VARCHAR(10) NOT NULL,
 

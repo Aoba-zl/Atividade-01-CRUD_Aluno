@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -12,5 +14,17 @@ import lombok.Setter;
 
 public class Telefone
 {
-    int numero;
+    private String numero;
+
+    @Override
+    public String toString() {
+        return numero;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        Telefone telefone = (Telefone) o;
+
+        return (numero.equals(telefone.numero));
+    }
 }

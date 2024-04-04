@@ -43,12 +43,12 @@ h1,
 h2,
 h3,
 h4 {
-  color: var(--cor_f);
+  color: tomato;
   margin: 0 0 10px 0;
 }
 
 .erro {
-  color: tomato;
+  color: var(--cor_f);
 }
 
 main {
@@ -79,7 +79,17 @@ main div {
 
 main div input[type="text"],
 [type="number"],
-[type="date"],
+select,
+input[type="date"],
+input[type="date"],
+input[type="datetime"],
+input[type="email"],
+input[type="month"],
+input[type="password"],
+input[type="range"],
+input[type="tel"],
+input[type="time"],
+input[type="week"],
 select {
   flex: 1;
 }
@@ -117,6 +127,18 @@ input[type="week"] {
   box-sizing: border-box;
 }
 
+.dado_matricula {
+  padding: 0;
+  flex: 0;
+
+  background-color: #e6dae1;
+  color: black;
+
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
 textarea {
   padding: 10px 20px;
   font-size: 1em;
@@ -127,8 +149,21 @@ textarea {
   box-sizing: border-box;
 }
 
+.popup {
+  display: none; /* Inicialmente oculto */
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: wheat;
+  border: 1px solid #ccc;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
 input[type="submit"],
-.btn {
+.btn,
+input[type="button"]{
   background-color: var(--cor_c);
   font-size: 1em;
   color: white;
@@ -137,16 +172,33 @@ input[type="submit"],
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-style: none;
 }
 
 input[type="submit"]:hover,
-.btn:hover {
+.btn:hover,
+input[type="button"]:hover{
   background-color: var(--cor_d);
 }
 
 .esticado, .btn{
   width: 100%;
+}
+
+input:disabled, input:hover:disabled{
+  background-color: rgb(189, 189, 189);
+  cursor: not-allowed;
+}
+
+.acao {
+  margin: 0;
+  padding: 0;
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.acao:hover {
+  color: rgb(0, 0, 131);
 }
 
 header {
@@ -247,6 +299,5 @@ table td {
 
 /* Estilos para Firefox */
 * {
-  scrollbar-width: thin;
   scrollbar-color: var(--cor_e) #ffffff00;
 }

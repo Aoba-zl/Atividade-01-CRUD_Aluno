@@ -12,7 +12,7 @@ public class GenericDAO
     {
         String hostName = "localhost";
         String port = "1433";
-        String dataBaseName = "Atividade_Jakarta";
+        String dataBaseName = "Avaliacao_1_Lab_BD";
         String user = "Usuario";
         String passwd = "USU4rio@123";
 
