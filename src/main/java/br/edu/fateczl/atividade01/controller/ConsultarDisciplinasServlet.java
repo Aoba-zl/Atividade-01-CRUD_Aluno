@@ -38,6 +38,9 @@ public class ConsultarDisciplinasServlet extends HttpServlet {
         List<MatriculaDisciplina> listaDisciplinas= new ArrayList<>();
 
         try {
+            if (ra.length() != 9){
+                erro = "RA inválido";
+            }
             if (cmd.contains("Buscar")) {
                 listaDisciplinas = consultarDisciplinasDAO.getDiciplinas(ra);
             }

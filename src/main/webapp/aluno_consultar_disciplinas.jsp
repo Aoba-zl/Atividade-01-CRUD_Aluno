@@ -19,10 +19,10 @@
       <form action="consultar_disciplinas" method="post">
         <div>
           <label for="ra">RA</label>
-          <input type="text" name="ra" id="ra" />
+          <input type="number" name="ra" id="ra" maxlength="9"/>
           <input type="submit" value="Buscar" name="botao" id="botao" />
         </div>
-        <div align="center">
+        <div align="center" class="erro">
           <c:if test="${not empty erro}">
             <h2><b><c:out value="${erro}"/></b></h2>
           </c:if>
