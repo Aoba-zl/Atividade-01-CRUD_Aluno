@@ -32,7 +32,6 @@ public class ConsultarDisciplinasDAO {
                     where disciplina.codigo = matricula_disciplina.cod_disciplina and
                           horario.id = matricula_disciplina.id_horario and
                           matricula.ra = matricula_disciplina.ra_matricula and
-                          matricula_disciplina.estado = 'matriculado' and
                           matricula.ra = ?
                 """;
         PreparedStatement ps= c.prepareStatement(sql);
