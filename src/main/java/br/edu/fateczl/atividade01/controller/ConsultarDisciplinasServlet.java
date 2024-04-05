@@ -41,9 +41,15 @@ public class ConsultarDisciplinasServlet extends HttpServlet {
             if (ra.length() != 9){
                 erro = "RA inválido";
             }
-            if (cmd.contains("Buscar")) {
-                listaDisciplinas = consultarDisciplinasDAO.getDiciplinas(ra);
+            else if (!consultarDisciplinasDAO.verificarRA(ra)){
+                erro = "Matrícula não Encontrada";
             }
+            else {
+                if (cmd.contains("Buscar")) {
+                    listaDisciplinas = consultarDisciplinasDAO.getDiciplinas(ra);
+                }
+            }
+
         } catch (SQLException | ClassNotFoundException e){
             erro = "Erro em consultar disciplinas";
         } finally {

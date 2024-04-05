@@ -34,6 +34,7 @@
               <th>Nome</th>
               <th>Situação</th>
               <th>Horário</th>
+              <th>Dia da Semana</th>
             </thead>
             <tbody>
               <c:if test="${not empty listaDisciplinas}">
@@ -42,7 +43,24 @@
                     <td><c:out value="${MatriDisciplina.disciplina.codigo}" /></td>
                     <td><c:out value="${MatriDisciplina.disciplina.nome}" /></td>
                     <td><c:out value="${MatriDisciplina.situacao}" /></td>
-                    <td><c:out value="${MatriDisciplina.horario.horario_inicio}" /></td>
+                    <td><c:out value="${MatriDisciplina.horario.horario_inicio}" /> - <c:out value="${MatriDisciplina.horario.horario_termino}" /></td>
+                    <td>
+                      <c:if test="${MatriDisciplina.dia_semana == 2}">
+                          Segunda-Feira
+                      </c:if>
+                      <c:if test="${MatriDisciplina.dia_semana == 3}">
+                          Terça-Feira
+                      </c:if>
+                      <c:if test="${MatriDisciplina.dia_semana == 4}">
+                        Quarta-Feira
+                      </c:if>
+                      <c:if test="${MatriDisciplina.dia_semana == 5}">
+                        Quinta-Feira
+                      </c:if>
+                      <c:if test="${MatriDisciplina.dia_semana == 6}">
+                        Sexta-Feira
+                      </c:if>
+                    </td>
                   </tr>
                 </c:forEach>
               </c:if>

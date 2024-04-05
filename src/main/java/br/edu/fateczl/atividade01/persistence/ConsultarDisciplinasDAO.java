@@ -27,7 +27,8 @@ public class ConsultarDisciplinasDAO {
                            disciplina.nome,
                            matricula_disciplina.estado,
                            horario.horario_inicio,
-                           horario.num_aulas
+                           horario.horario_fim,
+                           matricula_disciplina.dia_semana
                     from matricula_disciplina, disciplina, horario, matricula
                     where disciplina.codigo = matricula_disciplina.cod_disciplina and
                           horario.id = matricula_disciplina.id_horario and
@@ -47,8 +48,8 @@ public class ConsultarDisciplinasDAO {
             disciplina.setNome(rs.getString(2));
             matriculaDisciplina.setSituacao(rs.getString(3));
             horario.setHorario_inicio(rs.getTime(4));
-            horario.setNumero_aulas(rs.getInt(5));
-//            horario.set_Horario_termino();
+            horario.setHorario_termino(rs.getTime(5));
+            matriculaDisciplina.setDia_semana(rs.getInt(6));
 
             matriculaDisciplina.setDisciplina(disciplina);
             matriculaDisciplina.setHorario(horario);
@@ -60,5 +61,29 @@ public class ConsultarDisciplinasDAO {
         c.close();
 
         return disciplinas;
+    }
+
+
+    public Boolean verificarRA(String ra) throws SQLException, ClassNotFoundException {
+        Connection c= gDAO.getConnection();
+
+        String sql = """
+                select *
+                    from matricula
+                    where ra = ?
+                """;
+        PreparedStatement ps = c.prepareStatement(sql);
+        ps.setString(1, ra);
+        ResultSet rs= ps.executeQuery();
+
+        if (rs.next()){
+            return true;
+        }
+
+        rs.close();
+        ps.close();
+        c.close();
+
+        return false;
     }
 }
