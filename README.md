@@ -3,8 +3,8 @@
 Trabalho Para Matéria de Laboratório de Banco de Dados
 
 ## Integrantes
-Débora Cristina; RA 1110482212031
-Luan Camilo Nogueira; RA 1110482212016
+<p>Débora Cristina; RA 1110482212031</p>
+<p>Luan Camilo Nogueira; RA 1110482212016</p>
 
 ## Diagramas
  <img src="./src/main/webapp/WEB-INF/doc/Diagrama de Caso de Uso.png" alt="" width="450" height="320">
