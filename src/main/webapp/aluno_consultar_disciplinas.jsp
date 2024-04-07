@@ -60,6 +60,9 @@
                       <c:if test="${MatriDisciplina.dia_semana == 6}">
                         Sexta-Feira
                       </c:if>
+                      <c:if test="${MatriDisciplina.dia_semana == 7}">
+                        Sábado
+                      </c:if>
                     </td>
                   </tr>
                 </c:forEach>
