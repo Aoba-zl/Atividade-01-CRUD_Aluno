@@ -21,7 +21,7 @@
         </a>
       </div>
       <div>
-        <a class="btn" href="aluno_consultar_disciplinas.jsp">
+        <a class="btn" href="${pageContext.request.contextPath}/consultar_disciplinas">
           Consultar Disciplinas Matriculadas
         </a>
       </div>

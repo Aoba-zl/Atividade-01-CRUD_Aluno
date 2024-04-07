@@ -19,7 +19,7 @@
       <br />
       <!-- TODO: Área da Secretaria -->
       <div>
-        <a class="btn" href="secretaria_manter_aluno.jsp">Manter Aluno</a>
+        <a class="btn" href="${pageContext.request.contextPath}/manter_aluno">Manter Aluno</a>
       </div>
     </main>
   </body>
